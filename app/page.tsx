@@ -1,61 +1,41 @@
-import Image from "next/image";
 import {
   ArrowRight,
   BadgeCheck,
   CarFront,
-  Clock,
-  MapPin,
-  Phone,
+  PhoneCall,
   ShieldCheck,
   Sparkles
 } from "lucide-react";
 
-const featuredVehicles = [
-  {
-    year: "2022",
-    name: "RAM 1500 Sport Crew Cab",
-    badge: "4WD",
-    detail: "Hemi V8 · Crew cab · Built for work and weekends",
-    price: "Call for price",
-    mileage: "Availability changes"
-  },
-  {
-    year: "2021",
-    name: "Jeep Grand Cherokee",
-    badge: "SUV",
-    detail: "Comfortable daily driver · Trail-ready confidence",
-    price: "Call for price",
-    mileage: "Updated by dealer"
-  },
-  {
-    year: "2020",
-    name: "Ford F-150 Platinum",
-    badge: "Truck",
-    detail: "Premium trim · Tow-capable · Basin-ready",
-    price: "Call for price",
-    mileage: "See current inventory"
-  }
-];
+import { IntroSplash } from "../components/site/IntroSplash";
+import { InventoryCard } from "../components/site/InventoryCard";
+import { RevealOnScroll } from "../components/site/RevealOnScroll";
+import { SiteFooter } from "../components/site/SiteFooter";
+import { SiteHeader } from "../components/site/SiteHeader";
+import {
+  WEBMANAGER_INVENTORY_URL,
+  featuredVehicles
+} from "../lib/inventory";
 
-const trustItems = [
+const sellingPoints = [
   {
-    title: "Community Driven",
-    text: "A local dealership experience built around repeat relationships, straight answers, and vehicles that make sense for the Uintah Basin.",
+    title: "Premium first impression",
+    text: "A cleaner visual presentation built to get more calls, more walk-ins, and stronger trust than a generic dealer template.",
     icon: Sparkles
   },
   {
-    title: "Vehicle-Finder Focus",
-    text: "If the right car is not on the lot, customers can request what they are looking for and turn the website into a lead engine.",
+    title: "Inventory-ready architecture",
+    text: "The interface is structured to swap mock inventory for WebManager-fed data without rebuilding the front end.",
     icon: CarFront
   },
   {
-    title: "Straightforward Contact",
-    text: "Fast paths for calls, directions, test drive requests, financing questions, and inventory interest without burying the customer.",
+    title: "Lead-first dealership UX",
+    text: "Vehicle pages, contact routes, and calls to action are organized around financing questions, trade-ins, and test drives.",
     icon: BadgeCheck
   },
   {
-    title: "Built to Expand",
-    text: "This launch page can later grow into live inventory, customer intake, admin tools, financing workflows, and analytics.",
+    title: "Safer scope for version one",
+    text: "Keep AutoManager as the operational backbone now, then add a custom owner portal later if the business wants it.",
     icon: ShieldCheck
   }
 ];
@@ -63,28 +43,10 @@ const trustItems = [
 export default function Home() {
   return (
     <main>
-      <nav className="nav">
-        <a href="#top" className="navLogo" aria-label="Repete Auto home">
-          <Image
-            src="/repete-logo.png"
-            alt="Repete Auto logo"
-            width={520}
-            height={120}
-            priority
-          />
-        </a>
+      <IntroSplash />
+      <SiteHeader />
 
-        <div className="navLinks">
-          <a href="#inventory">Inventory</a>
-          <a href="#why">Why Repete</a>
-          <a href="#finder">Vehicle Finder</a>
-          <a href="#contact" className="navCta">
-            Contact
-          </a>
-        </div>
-      </nav>
-
-      <section className="hero" id="top">
+      <section className="heroSection heroHomeSection">
         <video
           className="heroVideo"
           autoPlay
@@ -97,309 +59,162 @@ export default function Home() {
           <source src="/videos/repete-hero.mp4" type="video/mp4" />
         </video>
 
-        <div className="heroBackdrop" />
-        <div className="heroGlow heroGlowOne" />
-        <div className="heroGlow heroGlowTwo" />
-        <div className="highwayLine highwayLineOne" />
-        <div className="highwayLine highwayLineTwo" />
+        <div className="heroOverlay" />
+        <div className="heroLine heroLineOne" />
+        <div className="heroLine heroLineTwo" />
 
-        <div className="heroInner">
-          <div className="heroCopy">
-            <p className="eyebrow">Vernal, Utah · Used cars, trucks, SUVs</p>
-
+        <div className="shell heroShell">
+          <div className="heroCopyBlock">
+            <p className="eyebrow">Vernal, Utah · Used cars, SUVs, trucks</p>
             <h1 className="heroTitle">
-              Built for
-              <br />
-              <span>This Land.</span>
+              Find the right vehicle
+              <span> at the right price.</span>
             </h1>
-
             <p className="heroText">
-              Trucks, SUVs, work rigs, and reliable daily drivers chosen for
-              Vernal, the Uintah Basin, and the people who need vehicles that
-              are ready to move.
+              This version is built to integrate with Repete Auto&apos;s
+              existing workflow while making the front-end vehicle
+              presentation cleaner, larger, and more confidence-inspiring.
             </p>
 
             <div className="heroActions">
-              <a
-                className="buttonPrimary"
-                href="https://www.repeteauto.com/view-inventory"
-                target="_blank"
-                rel="noreferrer"
-              >
-                View Current Inventory <ArrowRight size={16} />
+              <a href="/inventory" className="buttonPrimary">
+                View Premium Inventory Layout <ArrowRight size={16} />
               </a>
-
-              <a className="buttonGhost" href="#contact">
-                Schedule a Test Drive
+              <a href="tel:14357892886" className="buttonGhost">
+                Call the Dealership <PhoneCall size={16} />
               </a>
             </div>
 
-            <div className="heroFacts" aria-label="Dealership highlights">
+            <div className="heroFacts">
               <div>
-                <strong>435-789-2886</strong>
-                <span>Main phone</span>
-              </div>
-              <div>
-                <strong>2295 US-40</strong>
-                <span>Vernal, UT</span>
+                <strong>We keep AutoManager</strong>
+                <span>for operational backbone</span>
               </div>
               <div>
-                <strong>Mon-Sat</strong>
-                <span>Sales hours</span>
+                <strong>Level 2</strong>
+                <span>Integration Target</span>
+              </div>
+              <div>
+                <strong>No Re-entry</strong>
+                <span>Keep existing workflow</span>
               </div>
             </div>
           </div>
 
-          <div className="heroPanel">
-            <div className="panelTop">
-              <span>Website Preview</span>
-              <span className="liveDot">Demo Ready</span>
+          <div className="heroPanelCard">
+            <div className="heroPanelTop">
+              <span>Deployment direction</span>
+              <strong>Presentation Layer</strong>
             </div>
 
-            <div className="vehicleSilhouette">
-              <div className="vehicleCab" />
-              <div className="vehicleBed" />
-              <div className="wheel wheelOne" />
-              <div className="wheel wheelTwo" />
-            </div>
-
-            <div className="panelCard">
-              <p>Next upgrade path</p>
-              <h2>Live inventory + lead capture</h2>
-              <span>
-                Turn browsers into calls, test drives, and financing
-                conversations.
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="inventorySection" id="inventory">
-        <div className="sectionHeader">
-          <div>
-            <p className="eyebrow">Current Inventory</p>
-            <h2>Featured inventory preview</h2>
-          </div>
-
-          <a
-            href="https://www.repeteauto.com/view-inventory"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open live inventory <ArrowRight size={16} />
-          </a>
-        </div>
-
-        <div className="inventoryGrid">
-          {featuredVehicles.map((vehicle) => (
-            <article className="vehicleCard" key={vehicle.name}>
-              <div className="vehicleImage">
-                <span>{vehicle.badge}</span>
-
-                <div className="miniVehicle">
-                  <div className="miniBody" />
-                  <div className="miniBed" />
-                  <div className="miniWheel miniWheelOne" />
-                  <div className="miniWheel miniWheelTwo" />
-                </div>
-              </div>
-
-              <div className="vehicleContent">
-                <p>{vehicle.year}</p>
-                <h3>{vehicle.name}</h3>
-                <span>{vehicle.detail}</span>
-
-                <div className="vehicleFooter">
-                  <strong>{vehicle.price}</strong>
-                  <em>{vehicle.mileage}</em>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="whySection" id="why">
-        <div className="sectionHeader">
-          <div>
-            <p className="eyebrow">The Pitch</p>
-            <h2>A better site should make the phone ring.</h2>
-          </div>
-        </div>
-
-        <div className="whyGrid">
-          {trustItems.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <article className="whyCard" key={item.title}>
-                <Icon size={24} />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="finderSection" id="finder">
-        <div className="finderCard">
-          <div>
-            <p className="eyebrow">Vehicle Finder</p>
-            <h2>Looking for something specific?</h2>
+            <h2>Keep AutoManager. Improve how the lot feels online.</h2>
             <p>
-              A customer should not leave the site just because the exact
-              vehicle is not listed. This section can become an intake form for
-              make, model, budget, trade-in details, financing needs, and
-              preferred contact time.
+              The main objective is simple: let Repete Auto keep managing
+              vehicles where they already manage them, while this site becomes
+              the premium, image-forward front end.
             </p>
-          </div>
-
-          <form className="finderForm">
-            <label>
-              Vehicle type
-              <select defaultValue="">
-                <option value="" disabled>
-                  Choose one
-                </option>
-                <option>Truck</option>
-                <option>SUV</option>
-                <option>Car</option>
-                <option>Van</option>
-                <option>Commercial / work vehicle</option>
-              </select>
-            </label>
-
-            <label>
-              Budget range
-              <input placeholder="$15,000 - $35,000" />
-            </label>
-
-            <label>
-              Notes
-              <textarea placeholder="Tell Repete Auto what you are looking for..." />
-            </label>
-
-            <a className="buttonPrimary fullWidth" href="tel:14357892886">
-              Call Repete Auto
-            </a>
-          </form>
-        </div>
-      </section>
-
-      <section className="contactSection" id="contact">
-        <div className="contactGrid">
-          <div>
-            <p className="eyebrow">Contact</p>
-            <h2>Repete Auto</h2>
-
-            <p className="contactLead">
-              Call, visit the lot, or use this page as the starting point for a
-              better customer acquisition system.
-            </p>
-
-            <div className="contactRows">
-              <a href="tel:14357892886" className="contactRow">
-                <Phone size={20} />
-                <span>
-                  <small>Phone</small>
-                  435-789-2886
-                </span>
-              </a>
-
-              <a
-                href="https://maps.google.com/?q=2295+US-40+Vernal+UT+84078"
-                target="_blank"
-                rel="noreferrer"
-                className="contactRow"
-              >
-                <MapPin size={20} />
-                <span>
-                  <small>Address</small>
-                  2295 US-40, Vernal, UT 84078
-                </span>
-              </a>
-
-              <div className="contactRow">
-                <Clock size={20} />
-                <span>
-                  <small>Hours</small>
-                  Mon-Fri 9am-6pm · Sat 10am-2pm · Sun closed
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <form className="contactForm">
-            <div className="formSplit">
-              <label>
-                First name
-                <input placeholder="John" />
-              </label>
-
-              <label>
-                Last name
-                <input placeholder="Smith" />
-              </label>
-            </div>
-
-            <div className="formSplit">
-              <label>
-                Phone
-                <input placeholder="(435) 555-0000" />
-              </label>
-
-              <label>
-                Email
-                <input placeholder="john@email.com" />
-              </label>
-            </div>
-
-            <label>
-              Inquiry type
-              <select defaultValue="">
-                <option value="" disabled>
-                  Select one
-                </option>
-                <option>Inventory question</option>
-                <option>Schedule test drive</option>
-                <option>Financing question</option>
-                <option>Trade-in question</option>
-                <option>Vehicle finder request</option>
-              </select>
-            </label>
-
-            <label>
-              Message
-              <textarea placeholder="What vehicle are you interested in?" />
-            </label>
 
             <a
-              className="buttonPrimary fullWidth"
-              href="mailto:pete@repeteauto.com?subject=Website%20Inquiry%20from%20Repete%20Auto%20Preview"
+              href={WEBMANAGER_INVENTORY_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="buttonGhost fullWidth"
             >
-              Send Inquiry
+              Open Current WebManager Inventory
             </a>
-          </form>
+          </div>
         </div>
       </section>
 
-      <footer>
-        <Image
-          src="/repete-logo.png"
-          alt="Repete Auto logo"
-          width={380}
-          height={90}
-        />
+      <RevealOnScroll>
+        <section className="sectionBlock inventoryPreviewSection">
+          <div className="shell">
+            <div className="sectionHeaderBlock">
+              <div>
+                <p className="eyebrow">Featured Inventory</p>
+                <h2>Image-first presentation</h2>
+              </div>
+              <a href="/inventory" className="textLink">
+                See full layout <ArrowRight size={16} />
+              </a>
+            </div>
 
-        <p>
-          © 2026 Repete Auto website preview. Built for a modern local
-          dealership experience.
-        </p>
+            <div className="inventoryGridPremium">
+              {featuredVehicles.map((vehicle) => (
+                <InventoryCard key={vehicle.slug} vehicle={vehicle} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </RevealOnScroll>
 
-        <a href="#top">Back to top</a>
-      </footer>
+      <RevealOnScroll delay={80}>
+        <section className="sectionBlock whySection">
+          <div className="shell">
+            <div className="sectionHeaderBlock narrowHeader">
+              <div>
+                <p className="eyebrow">Why this build</p>
+                <h2>
+                  It gives the business a more professional online presence without disrupting current operations.
+                </h2>
+              </div>
+            </div>
+
+            <div className="sellingGrid">
+              {sellingPoints.map((point) => {
+                const Icon = point.icon;
+                return (
+                  <article className="sellingCard" key={point.title}>
+                    <Icon size={22} />
+                    <h3>{point.title}</h3>
+                    <p>{point.text}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={140}>
+        <section className="sectionBlock integrationSection">
+          <div className="shell integrationShell">
+            <div>
+              <p className="eyebrow">Implementation path</p>
+              <h2>
+                Build the shell now. Wire the XML feed the moment AutoManager
+                sends it.
+              </h2>
+              <p>
+                The UI is already structured around a normalized vehicle model,
+                so the next step is to map the XML feed into these cards and
+                vehicle detail pages.
+              </p>
+            </div>
+
+            <div className="integrationSteps">
+              <div>
+                <strong>1</strong>
+                <span>Premium homepage and inventory layout</span>
+              </div>
+              <div>
+                <strong>2</strong>
+                <span>Request XML feed from AutoManager support</span>
+              </div>
+              <div>
+                <strong>3</strong>
+                <span>Normalize feed fields into this UI</span>
+              </div>
+              <div>
+                <strong>4</strong>
+                <span>Ship with current workflow preserved</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </RevealOnScroll>
+
+      <SiteFooter />
     </main>
   );
 }
