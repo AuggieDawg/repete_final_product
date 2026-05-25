@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Inventory>
+  <Vehicle>
+    <StockNumber>R1001</StockNumber>
+    <VIN>1FTFW1E80NFA00001</VIN>
+    <Year>2022</Year>
+    <Make>Ford</Make>
+    <Model>F-150</Model>
+    <Trim>Platinum</Trim>
+    <BodyStyle>Truck</BodyStyle>
+    <Mileage>62,100</Mileage>
+    <InternetPrice>$42,995</InternetPrice>
+    <Engine>3.5L V6</Engine>
+    <Transmission>Automatic</Transmission>
+    <Drivetrain>4WD</Drivetrain>
+    <ExteriorColor>Black</ExteriorColor>
+    <InteriorColor>Black</InteriorColor>
+    <Description><![CDATA[Premium truck with strong equipment and clean presentation.]]></Description>
+    <Features>
+      <Feature>Backup Camera</Feature>
+      <Feature>Leather Seats</Feature>
+      <Feature>Navigation</Feature>
+      <Feature>Premium Sound</Feature>
+    </Features>
+    <Photos>
+      <Photo>https://example.com/f150-1.jpg</Photo>
+      <Photo>https://example.com/f150-2.jpg</Photo>
+    </Photos>
+  </Vehicle>
+
+  <Vehicle>
+    <StockNumber>R1002</StockNumber>
+    <VIN>1C6SRFLT0NN000002</VIN>
+    <Year>2022</Year>
+    <Make>RAM</Make>
+    <Model>1500</Model>
+    <Trim>Sport Crew Cab</Trim>
+    <BodyStyle>Truck</BodyStyle>
+    <Mileage>48,250</Mileage>
+    <InternetPrice>Call For Price</InternetPrice>
+    <Engine>5.7L Hemi V8</Engine>
+    <Transmission>Automatic</Transmission>
+    <Drivetrain>4WD</Drivetrain>
+    <ExteriorColor>White</ExteriorColor>
+    <InteriorColor>Black</InteriorColor>
+    <Description>Work-ready truck with premium road presence.</Description>
+    <Features>
+      <Feature>Remote Start</Feature>
+      <Feature>Heated Seats</Feature>
+      <Feature>Tow Package</Feature>
+    </Features>
+    <Photos>
+      <Photo>https://example.com/ram-1.jpg</Photo>
+    </Photos>
+  </Vehicle>
+</Inventory>

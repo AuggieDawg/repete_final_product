@@ -6,13 +6,18 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "inventory:fetch-fixture": "node scripts/fetch-automanager-fixture.mjs",
+    "inventory:parse-fixture": "tsx scripts/parse-inventory-fixture.ts"
   },
   "dependencies": {
+    "fast-xml-parser": "^5.8.0",
+    "lucide-react": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "lucide-react": "latest"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
@@ -20,6 +25,8 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "typescript": "latest"
+    "tsx": "^4.22.3",
+    "typescript": "latest",
+    "vitest": "^4.1.7"
   }
 }

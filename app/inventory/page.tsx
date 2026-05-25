@@ -1,118 +1,111 @@
-import { ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { SiteNav } from "@/components/site/SiteNav";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { VehicleCard } from "@/components/inventory/VehicleCard";
+import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 
-import { InventoryCard } from "../../components/site/InventoryCard";
-import { RevealOnScroll } from "../../components/site/RevealOnScroll";
-import { SiteFooter } from "../../components/site/SiteFooter";
-import { SiteHeader } from "../../components/site/SiteHeader";
-import {
-  WEBMANAGER_FRAMED_INVENTORY_URL,
-  WEBMANAGER_INVENTORY_URL,
-  inventoryCategories,
-  inventoryVehicles
-} from "../../lib/inventory";
+export const metadata: Metadata = {
+  title: "Inventory | Repete Auto in Vernal, Utah",
+  description:
+    "Browse Repete Auto inventory in Vernal, Utah. Trucks, SUVs, cars, and work-ready vehicles powered by AutoManager inventory data."
+};
 
-export default function InventoryPage() {
+function getSearchValue(searchParams: Record<string, string | string[] | undefined>, key: string) {
+  const value = searchParams[key];
+
+  if (Array.isArray(value)) return value[0] || "";
+
+  return value || "";
+}
+
+export default async function InventoryPage({
+  searchParams
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined>;
+}) {
+  const resolvedSearchParams = await Promise.resolve(searchParams || {});
+  const query = getSearchValue(resolvedSearchParams, "q").toLowerCase();
+  const snapshot = await getInventorySnapshot();
+
+  const vehicles = snapshot.vehicles.filter((vehicle) => {
+    if (!query) return true;
+
+    return [
+      vehicle.title,
+      vehicle.make,
+      vehicle.model,
+      vehicle.trim,
+      vehicle.bodyStyle,
+      vehicle.engine,
+      vehicle.drivetrain,
+      vehicle.stockNumber,
+      vehicle.vin
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+      .includes(query);
+  });
+
   return (
     <main>
-      <SiteHeader />
+      <SiteNav />
 
-      <section className="pageHero inventoryHeroSection">
-        <div className="shell pageHeroShell">
-          <div className="pageHeroCopy">
-            <p className="eyebrow">Inventory</p>
-            <h1>
-              Premium vehicle presentation for the current Repete Auto
-              workflow.
-            </h1>
-            <p>
-              This page is the custom front-end target. AutoManager remains
-              the operational backbone; the presentation layer becomes
-              image-first, cleaner, and more consistent with a premium local
-              dealership brand.
-            </p>
-          </div>
+      <section className="pageHero">
+        <p className="eyebrow">AutoManager Inventory Feed</p>
+        <h1>Repete Auto Inventory</h1>
+        <p>
+          Inventory is displayed from the approved AutoManager XML feed. Call Repete Auto to confirm availability, price, and final details.
+        </p>
 
-          <div className="pageHeroAside">
-            <div>
-              <small>Version objective</small>
-              <strong>Level 2 integration</strong>
-            </div>
-            <div>
-              <small>Cards ready</small>
-              <strong>{inventoryVehicles.length} demo vehicles</strong>
-            </div>
-            <div>
-              <small>Fallback path</small>
-              <strong>Framed WebManager view</strong>
-            </div>
-          </div>
+        <div className="inventoryStatus">
+          <span>{snapshot.vehicleCount} vehicles loaded</span>
+          <span>Photos: {snapshot.photoCount}</span>
+          <span>{snapshot.cachePolicy?.label}</span>
         </div>
       </section>
 
-      <RevealOnScroll>
-        <section className="sectionBlock filterSection">
-          <div className="shell">
-            <div className="filterRow">
-              {inventoryCategories.map((filter) => (
-                <button type="button" className="filterChip" key={filter}>
-                  {filter}
-                </button>
-              ))}
-            </div>
+      <section className="inventorySection inventoryPageSection">
+        <div className="inventoryToolbar">
+          <form action="/inventory" method="get">
+            <label>
+              Search inventory
+              <input
+                name="q"
+                placeholder="Search trucks, SUVs, make, model, stock..."
+                defaultValue={query}
+              />
+            </label>
 
-            <div className="inventoryGridPremium largeGrid">
-              {inventoryVehicles.map((vehicle) => (
-                <InventoryCard key={vehicle.slug} vehicle={vehicle} />
-              ))}
-            </div>
+            <button className="buttonPrimary" type="submit">
+              Search
+            </button>
+
+            <Link className="buttonGhost" href="/inventory">
+              Reset
+            </Link>
+          </form>
+        </div>
+
+        {snapshot.errors.length > 0 ? (
+          <div className="noticeCard">
+            <h2>Inventory is temporarily unavailable.</h2>
+            <p>Please call Repete Auto for current availability.</p>
           </div>
-        </section>
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={100}>
-        <section className="sectionBlock integrationSection mutedSection">
-          <div className="shell integrationShell splitIntegration">
-            <div>
-              <p className="eyebrow">Integration fallback</p>
-              <h2>
-                Use the custom layout first. Fall back to WebManager if needed.
-              </h2>
-              <p>
-                Once the XML feed is available, this page becomes live
-                inventory. Until then, the safest fallback is to route users
-                into the current WebManager inventory while keeping the premium
-                shell elsewhere.
-              </p>
-            </div>
-
-            <div className="ctaStack">
-              <a
-                href={WEBMANAGER_INVENTORY_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="buttonPrimary fullWidth"
-              >
-                Open Live WebManager Inventory <ExternalLink size={16} />
-              </a>
-              <a
-                href={WEBMANAGER_FRAMED_INVENTORY_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="buttonGhost fullWidth"
-              >
-                Test Framed Inventory View <ArrowRight size={16} />
-              </a>
-              <div className="integrationNote">
-                <ShieldCheck size={18} />
-                <span>
-                  Keeps the current desk workflow intact while the front end is
-                  upgraded.
-                </span>
-              </div>
-            </div>
+        ) : vehicles.length > 0 ? (
+          <div className="inventoryGrid">
+            {vehicles.map((vehicle) => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            ))}
           </div>
-        </section>
-      </RevealOnScroll>
+        ) : (
+          <div className="noticeCard">
+            <h2>No matching vehicles found.</h2>
+            <p>Try another search or call Repete Auto for help finding the right vehicle.</p>
+          </div>
+        )}
+      </section>
 
       <SiteFooter />
     </main>

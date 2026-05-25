@@ -1,52 +1,51 @@
+import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
   CarFront,
-  PhoneCall,
+  MapPin,
+  Phone,
   ShieldCheck,
   Sparkles
 } from "lucide-react";
+import { SiteNav } from "@/components/site/SiteNav";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { VehicleCard } from "@/components/inventory/VehicleCard";
+import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
+import { siteConfig } from "@/lib/site/site";
 
-import { IntroSplash } from "../components/site/IntroSplash";
-import { InventoryCard } from "../components/site/InventoryCard";
-import { RevealOnScroll } from "../components/site/RevealOnScroll";
-import { SiteFooter } from "../components/site/SiteFooter";
-import { SiteHeader } from "../components/site/SiteHeader";
-import {
-  WEBMANAGER_INVENTORY_URL,
-  featuredVehicles
-} from "../lib/inventory";
-
-const sellingPoints = [
+const trustItems = [
   {
-    title: "Premium first impression",
-    text: "A cleaner visual presentation built to get more calls, more walk-ins, and stronger trust than a generic dealer template.",
+    title: "Community Driven",
+    text: "A local dealership experience built around repeat relationships, straight answers, and vehicles that make sense for the Uintah Basin.",
     icon: Sparkles
   },
   {
-    title: "Inventory-ready architecture",
-    text: "The interface is structured to swap mock inventory for WebManager-fed data without rebuilding the front end.",
+    title: "AutoManager Powered",
+    text: "Inventory remains controlled through AutoManager while this custom website presents the vehicles in a premium customer-facing experience.",
     icon: CarFront
   },
   {
-    title: "Lead-first dealership UX",
-    text: "Vehicle pages, contact routes, and calls to action are organized around financing questions, trade-ins, and test drives.",
+    title: "Straightforward Contact",
+    text: "Fast paths for calls, directions, test drive requests, financing questions, and inventory interest without burying the customer.",
     icon: BadgeCheck
   },
   {
-    title: "Safer scope for version one",
-    text: "Keep AutoManager as the operational backbone now, then add a custom owner portal later if the business wants it.",
+    title: "Built to Expand",
+    text: "This launch can grow into richer SEO pages, lead routing, vehicle finder workflows, analytics, and conversion improvements.",
     icon: ShieldCheck
   }
 ];
 
-export default function Home() {
+export default async function Home() {
+  const snapshot = await getInventorySnapshot();
+  const previewVehicles = snapshot.vehicles.slice(0, 3);
+
   return (
     <main>
-      <IntroSplash />
-      <SiteHeader />
+      <SiteNav />
 
-      <section className="heroSection heroHomeSection">
+      <section className="hero" id="top">
         <video
           className="heroVideo"
           autoPlay
@@ -59,160 +58,196 @@ export default function Home() {
           <source src="/videos/repete-hero.mp4" type="video/mp4" />
         </video>
 
-        <div className="heroOverlay" />
-        <div className="heroLine heroLineOne" />
-        <div className="heroLine heroLineTwo" />
+        <div className="heroBackdrop" />
+        <div className="heroGlow heroGlowOne" />
+        <div className="heroGlow heroGlowTwo" />
+        <div className="highwayLine highwayLineOne" />
+        <div className="highwayLine highwayLineTwo" />
 
-        <div className="shell heroShell">
-          <div className="heroCopyBlock">
-            <p className="eyebrow">Vernal, Utah · Used cars, SUVs, trucks</p>
+        <div className="heroInner">
+          <div className="heroCopy">
+            <p className="eyebrow">Vernal, Utah · Used cars, trucks, SUVs</p>
+
             <h1 className="heroTitle">
-              Find the right vehicle
-              <span> at the right price.</span>
+              Built for
+              <br />
+              <span>This Land.</span>
             </h1>
+
             <p className="heroText">
-              This version is built to integrate with Repete Auto&apos;s
-              existing workflow while making the front-end vehicle
-              presentation cleaner, larger, and more confidence-inspiring.
+              Trucks, SUVs, work rigs, and reliable daily drivers chosen for Vernal, the Uintah Basin,
+              and the people who need vehicles that are ready to move.
             </p>
 
             <div className="heroActions">
-              <a href="/inventory" className="buttonPrimary">
-                View Premium Inventory Layout <ArrowRight size={16} />
-              </a>
-              <a href="tel:14357892886" className="buttonGhost">
-                Call the Dealership <PhoneCall size={16} />
-              </a>
+              <Link className="buttonPrimary" href="/inventory">
+                View Inventory <ArrowRight size={16} />
+              </Link>
+
+              <Link className="buttonGhost" href="/sell-us-your-car">
+                Sell Us Your Car
+              </Link>
             </div>
 
-            <div className="heroFacts">
+            <div className="heroFacts" aria-label="Dealership highlights">
               <div>
-                <strong>We keep AutoManager</strong>
-                <span>for operational backbone</span>
+                <strong>{siteConfig.phoneDisplay}</strong>
+                <span>Main phone</span>
               </div>
               <div>
-                <strong>Level 2</strong>
-                <span>Integration Target</span>
+                <strong>{siteConfig.addressLine1}</strong>
+                <span>Vernal, UT</span>
               </div>
               <div>
-                <strong>No Re-entry</strong>
-                <span>Keep existing workflow</span>
+                <strong>AutoManager</strong>
+                <span>Inventory feed</span>
               </div>
             </div>
           </div>
 
-          <div className="heroPanelCard">
-            <div className="heroPanelTop">
-              <span>Deployment direction</span>
-              <strong>Presentation Layer</strong>
+          <div className="heroPanel">
+            <div className="panelTop">
+              <span>Inventory Status</span>
+              <span className="liveDot">{snapshot.source === "automanager-xml" ? "Live Feed" : "Fixture Mode"}</span>
             </div>
 
-            <h2>Keep AutoManager. Improve how the lot feels online.</h2>
-            <p>
-              The main objective is simple: let Repete Auto keep managing
-              vehicles where they already manage them, while this site becomes
-              the premium, image-forward front end.
-            </p>
+            <div className="vehicleSilhouette">
+              <div className="vehicleCab" />
+              <div className="vehicleBed" />
+              <div className="wheel wheelOne" />
+              <div className="wheel wheelTwo" />
+            </div>
 
-            <a
-              href={WEBMANAGER_INVENTORY_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="buttonGhost fullWidth"
-            >
-              Open Current WebManager Inventory
+            <div className="panelCard">
+              <p>Current build</p>
+              <h2>{snapshot.vehicleCount} vehicles loaded</h2>
+              <span>
+                Inventory display is powered by a cached AutoManager XML feed and designed to preserve the existing DeskManager/WebManager workflow.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="inventorySection" id="inventory">
+        <div className="sectionHeader">
+          <div>
+            <p className="eyebrow">Current Inventory</p>
+            <h2>Inventory preview</h2>
+          </div>
+
+          <Link href="/inventory">
+            Open inventory <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {previewVehicles.length > 0 ? (
+          <div className="inventoryGrid">
+            {previewVehicles.map((vehicle) => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            ))}
+          </div>
+        ) : (
+          <div className="noticeCard">
+            <h2>Inventory preview is loading.</h2>
+            <p>Call Repete Auto for current availability.</p>
+          </div>
+        )}
+      </section>
+
+      <section className="whySection" id="why">
+        <div className="sectionHeader">
+          <div>
+            <p className="eyebrow">The Pitch</p>
+            <h2>A better site should make the phone ring.</h2>
+          </div>
+        </div>
+
+        <div className="whyGrid">
+          {trustItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <article className="whyCard" key={item.title}>
+                <Icon size={24} />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="finderSection">
+        <div className="finderCard">
+          <div>
+            <p className="eyebrow">Sell Us Your Car</p>
+            <h2>Have a vehicle to sell or trade?</h2>
+            <p>
+              Repete Auto can review cars, trucks, SUVs, and work vehicles. This launch keeps the process simple:
+              customers contact Repete directly while inventory remains controlled by AutoManager.
+            </p>
+          </div>
+
+          <div className="finderForm">
+            <Link className="buttonPrimary fullWidth" href="/sell-us-your-car">
+              Start Sell Us Your Car Request
+            </Link>
+
+            <a className="buttonGhost fullWidth" href={siteConfig.phoneHref}>
+              Call {siteConfig.phoneDisplay}
             </a>
           </div>
         </div>
       </section>
 
-      <RevealOnScroll>
-        <section className="sectionBlock inventoryPreviewSection">
-          <div className="shell">
-            <div className="sectionHeaderBlock">
-              <div>
-                <p className="eyebrow">Featured Inventory</p>
-                <h2>Image-first presentation</h2>
-              </div>
-              <a href="/inventory" className="textLink">
-                See full layout <ArrowRight size={16} />
+      <section className="contactSection" id="contact">
+        <div className="contactGrid">
+          <div>
+            <p className="eyebrow">Contact</p>
+            <h2>Repete Auto</h2>
+
+            <p className="contactLead">
+              Call, visit the lot, or use this site to find the vehicle that fits your work, family, and road needs.
+            </p>
+
+            <div className="contactRows">
+              <a href={siteConfig.phoneHref} className="contactRow">
+                <Phone size={20} />
+                <span>
+                  <small>Phone</small>
+                  {siteConfig.phoneDisplay}
+                </span>
+              </a>
+
+              <a
+                href={siteConfig.mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="contactRow"
+              >
+                <MapPin size={20} />
+                <span>
+                  <small>Address</small>
+                  {siteConfig.addressLine1}, {siteConfig.cityStateZip}
+                </span>
               </a>
             </div>
+          </div>
 
-            <div className="inventoryGridPremium">
-              {featuredVehicles.map((vehicle) => (
-                <InventoryCard key={vehicle.slug} vehicle={vehicle} />
-              ))}
+          <div className="detailCard">
+            <p className="eyebrow">Primary Actions</p>
+            <h2>What customers can do</h2>
+
+            <div className="actionStack">
+              <Link className="buttonPrimary fullWidth" href="/inventory">Browse Inventory</Link>
+              <Link className="buttonGhost fullWidth" href="/sell-us-your-car">Sell Us Your Car</Link>
+              <Link className="buttonGhost fullWidth" href="/contact">Contact Us</Link>
+              <Link className="buttonGhost fullWidth" href="/location">Location</Link>
             </div>
           </div>
-        </section>
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={80}>
-        <section className="sectionBlock whySection">
-          <div className="shell">
-            <div className="sectionHeaderBlock narrowHeader">
-              <div>
-                <p className="eyebrow">Why this build</p>
-                <h2>
-                  It gives the business a more professional online presence without disrupting current operations.
-                </h2>
-              </div>
-            </div>
-
-            <div className="sellingGrid">
-              {sellingPoints.map((point) => {
-                const Icon = point.icon;
-                return (
-                  <article className="sellingCard" key={point.title}>
-                    <Icon size={22} />
-                    <h3>{point.title}</h3>
-                    <p>{point.text}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={140}>
-        <section className="sectionBlock integrationSection">
-          <div className="shell integrationShell">
-            <div>
-              <p className="eyebrow">Implementation path</p>
-              <h2>
-                Build the shell now. Wire the XML feed the moment AutoManager
-                sends it.
-              </h2>
-              <p>
-                The UI is already structured around a normalized vehicle model,
-                so the next step is to map the XML feed into these cards and
-                vehicle detail pages.
-              </p>
-            </div>
-
-            <div className="integrationSteps">
-              <div>
-                <strong>1</strong>
-                <span>Premium homepage and inventory layout</span>
-              </div>
-              <div>
-                <strong>2</strong>
-                <span>Request XML feed from AutoManager support</span>
-              </div>
-              <div>
-                <strong>3</strong>
-                <span>Normalize feed fields into this UI</span>
-              </div>
-              <div>
-                <strong>4</strong>
-                <span>Ship with current workflow preserved</span>
-              </div>
-            </div>
-          </div>
-        </section>
-      </RevealOnScroll>
+        </div>
+      </section>
 
       <SiteFooter />
     </main>

@@ -1,0 +1,13 @@
+export const siteConfig = {
+  name: "Repete Auto",
+  phoneDisplay: "435-789-2886",
+  phoneHref: "tel:14357892886",
+  email: "pete@repeteauto.com",
+  addressLine1: "2295 US-40",
+  cityStateZip: "Vernal, UT 84078",
+  mapsUrl: "https://maps.google.com/?q=2295+US-40+Vernal+UT+84078",
+  inventoryLabel: "Inventory",
+  sellUsYourCarLabel: "Sell Us Your Car",
+  contactLabel: "Contact Us",
+  locationLabel: "Location"
+};

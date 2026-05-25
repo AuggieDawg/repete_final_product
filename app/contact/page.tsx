@@ -1,114 +1,86 @@
-import { Clock3, MapPin, Phone, Send } from "lucide-react";
+import type { Metadata } from "next";
+import { Phone, MapPin, Clock } from "lucide-react";
+import { SiteNav } from "@/components/site/SiteNav";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { siteConfig } from "@/lib/site/site";
+import { businessHours } from "@/lib/site/business-hours";
 
-import { RevealOnScroll } from "../../components/site/RevealOnScroll";
-import { SiteFooter } from "../../components/site/SiteFooter";
-import { SiteHeader } from "../../components/site/SiteHeader";
+export const metadata: Metadata = {
+  title: "Contact Repete Auto | Vernal, Utah",
+  description:
+    "Contact Repete Auto in Vernal, Utah for inventory questions, test drives, financing questions, and vehicle finder requests."
+};
 
 export default function ContactPage() {
   return (
     <main>
-      <SiteHeader />
+      <SiteNav />
 
-      <section className="pageHero contactHeroSection">
-        <div className="shell pageHeroShell">
-          <div className="pageHeroCopy">
+      <section className="contactSection contactStandalone">
+        <div className="contactGrid">
+          <div>
             <p className="eyebrow">Contact</p>
-            <h1>Give customers a cleaner path to call, ask, and schedule.</h1>
-            <p>
-              This page is structured to support test-drive requests,
-              financing questions, trade-in conversations, and direct
-              dealership contact.
-            </p>
-          </div>
-        </div>
-      </section>
+            <h2>Repete Auto</h2>
 
-      <RevealOnScroll>
-        <section className="sectionBlock contactPageSection">
-          <div className="shell contactPageGrid">
-            <div className="contactInfoStack">
-              <article className="contactInfoCard">
+            <p className="contactLead">
+              Call, visit the lot, or send an inquiry about current inventory, test drives, trade-ins, or vehicle finder requests.
+            </p>
+
+            <div className="contactRows">
+              <a href={siteConfig.phoneHref} className="contactRow">
                 <Phone size={20} />
-                <div>
-                  <small>Phone</small>
-                  <strong>435-789-2886</strong>
-                </div>
-              </article>
-              <article className="contactInfoCard">
+                <span><small>Phone</small>{siteConfig.phoneDisplay}</span>
+              </a>
+
+              <a href={siteConfig.mapsUrl} target="_blank" rel="noreferrer" className="contactRow">
                 <MapPin size={20} />
-                <div>
-                  <small>Address</small>
-                  <strong>2295 US-40, Vernal, UT 84078</strong>
-                </div>
-              </article>
-              <article className="contactInfoCard">
-                <Clock3 size={20} />
-                <div>
+                <span><small>Address</small>{siteConfig.addressLine1}, {siteConfig.cityStateZip}</span>
+              </a>
+
+              <div className="contactRow">
+                <Clock size={20} />
+                <span>
                   <small>Hours</small>
-                  <strong>Mon-Fri 9am-6pm · Sat 10am-2pm</strong>
-                </div>
-              </article>
+                  {businessHours.map((item) => `${item.day}: ${item.label}`).join(" · ")}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <form className="contactForm">
+            <div className="formSplit">
+              <label>First name<input placeholder="John" /></label>
+              <label>Last name<input placeholder="Smith" /></label>
             </div>
 
-            <form className="leadFormCard">
-              <div className="sectionHeaderBlock compactHeader">
-                <div>
-                  <p className="eyebrow">Lead Form</p>
-                  <h2>Start a conversation.</h2>
-                </div>
-              </div>
+            <div className="formSplit">
+              <label>Phone<input placeholder="(435) 555-0000" /></label>
+              <label>Email<input placeholder="john@email.com" /></label>
+            </div>
 
-              <div className="formRow">
-                <label>
-                  First name
-                  <input placeholder="John" />
-                </label>
-                <label>
-                  Last name
-                  <input placeholder="Smith" />
-                </label>
-              </div>
+            <label>
+              Inquiry type
+              <select defaultValue="">
+                <option value="" disabled>Select one</option>
+                <option>Inventory question</option>
+                <option>Schedule test drive</option>
+                <option>Financing question</option>
+                <option>Trade-in question</option>
+                <option>Vehicle finder request</option>
+              </select>
+            </label>
 
-              <div className="formRow">
-                <label>
-                  Phone
-                  <input placeholder="(435) 555-0000" />
-                </label>
-                <label>
-                  Email
-                  <input placeholder="john@email.com" />
-                </label>
-              </div>
+            <label>Message<textarea placeholder="What vehicle are you interested in?" /></label>
 
-              <label>
-                Inquiry type
-                <select defaultValue="">
-                  <option value="" disabled>
-                    Select one
-                  </option>
-                  <option>Inventory question</option>
-                  <option>Schedule test drive</option>
-                  <option>Financing question</option>
-                  <option>Trade-in question</option>
-                  <option>Vehicle finder request</option>
-                </select>
-              </label>
-
-              <label>
-                Message
-                <textarea placeholder="Tell Repete Auto what vehicle or question you have..." />
-              </label>
-
-              <a
-                href="mailto:pete@repeteauto.com?subject=Repete%20Auto%20Website%20Inquiry"
-                className="buttonPrimary fullWidth"
-              >
-                Send Inquiry <Send size={16} />
-              </a>
-            </form>
-          </div>
-        </section>
-      </RevealOnScroll>
+            <a
+              className="buttonPrimary fullWidth"
+              href={`mailto:${siteConfig.email}?subject=Website%20Inquiry%20from%20Repete%20Auto`}
+            >
+              Send Inquiry
+            </a>
+          </form>
+        </div>
+      </section>
 
       <SiteFooter />
     </main>
