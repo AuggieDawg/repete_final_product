@@ -1590,3 +1590,36 @@ textarea {
     columns: 1;
   }
 }
+
+.inventoryVehicleImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.inventoryCardPhoto .inventoryInfoReveal {
+  pointer-events: none;
+}
+
+.inventoryCard:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: -2px;
+}
+
+.filterRow label {
+  min-width: min(520px, 100%);
+}
+
+@media (hover: none) {
+  .inventoryCard .inventoryHoverOverlay,
+  .inventoryCard .inventoryInfoReveal {
+    opacity: 1;
+  }
+
+  .inventoryCard .inventoryInfoReveal .inventoryBadgeRow,
+  .inventoryCard .inventoryInfoReveal .inventoryTitleTop,
+  .inventoryCard .inventoryInfoReveal .inventoryBottomBar {
+    transform: translateY(0);
+  }
+}

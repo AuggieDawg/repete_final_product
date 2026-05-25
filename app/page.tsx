@@ -45,7 +45,7 @@ export default async function Home() {
     <main>
       <SiteNav />
 
-      <section className="hero" id="top">
+      <section className="heroSection heroHomeSection" id="top">
         <video
           className="heroVideo"
           autoPlay
@@ -58,13 +58,13 @@ export default async function Home() {
           <source src="/videos/repete-hero.mp4" type="video/mp4" />
         </video>
 
-        <div className="heroBackdrop" />
+        <div className="heroOverlay" />
         <div className="heroGlow heroGlowOne" />
         <div className="heroGlow heroGlowTwo" />
-        <div className="highwayLine highwayLineOne" />
-        <div className="highwayLine highwayLineTwo" />
+        <div className="heroLine heroLineOne" />
+        <div className="heroLine heroLineTwo" />
 
-        <div className="heroInner">
+        <div className="shell heroShell">
           <div className="heroCopy">
             <p className="eyebrow">Vernal, Utah · Used cars, trucks, SUVs</p>
 
@@ -105,8 +105,8 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="heroPanel">
-            <div className="panelTop">
+          <div className="heroPanelCard">
+            <div className="heroPanelTop">
               <span>Inventory Status</span>
               <span className="liveDot">{snapshot.source === "automanager-xml" ? "Live Feed" : "Fixture Mode"}</span>
             </div>
@@ -118,7 +118,7 @@ export default async function Home() {
               <div className="wheel wheelTwo" />
             </div>
 
-            <div className="panelCard">
+            <div>
               <p>Current build</p>
               <h2>{snapshot.vehicleCount} vehicles loaded</h2>
               <span>
@@ -129,20 +129,20 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="inventorySection" id="inventory">
-        <div className="sectionHeader">
+      <section className="sectionBlock inventoryPreviewSection" id="inventory">
+        <div className="shell sectionHeaderBlock">
           <div>
             <p className="eyebrow">Current Inventory</p>
             <h2>Inventory preview</h2>
           </div>
 
-          <Link href="/inventory">
+          <Link className="textLink" href="/inventory">
             Open inventory <ArrowRight size={16} />
           </Link>
         </div>
 
         {previewVehicles.length > 0 ? (
-          <div className="inventoryGrid">
+          <div className="shell inventoryGridPremium">
             {previewVehicles.map((vehicle) => (
               <VehicleCard key={vehicle.id} vehicle={vehicle} />
             ))}

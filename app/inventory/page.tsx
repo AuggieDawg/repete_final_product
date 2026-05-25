@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ArrowRight } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { VehicleCard } from "@/components/inventory/VehicleCard";
@@ -52,59 +53,80 @@ export default async function InventoryPage({
     <main>
       <SiteNav />
 
-      <section className="pageHero">
-        <p className="eyebrow">AutoManager Inventory Feed</p>
-        <h1>Repete Auto Inventory</h1>
-        <p>
-          Inventory is displayed from the approved AutoManager XML feed. Call Repete Auto to confirm availability, price, and final details.
-        </p>
+      <section className="inventoryPageHeroCompact">
+        <div className="shell inventoryHeroCompactShell">
+          <div className="inventoryHeroCompactCopy">
+            <p className="eyebrow">AutoManager Inventory Feed</p>
+            <h1>Repete Auto Inventory</h1>
+            <p>
+              Premium inventory presentation powered by Repete Auto&apos;s approved AutoManager XML feed.
+              Call to confirm availability, price, and final vehicle details.
+            </p>
+          </div>
 
-        <div className="inventoryStatus">
-          <span>{snapshot.vehicleCount} vehicles loaded</span>
-          <span>Photos: {snapshot.photoCount}</span>
-          <span>{snapshot.cachePolicy?.label}</span>
+          <div className="inventoryHeroMeta">
+            <div>
+              <small>Vehicles</small>
+              <strong>{snapshot.vehicleCount}</strong>
+            </div>
+
+            <div>
+              <small>Photos</small>
+              <strong>{snapshot.photoCount}</strong>
+            </div>
+
+            <div>
+              <small>Mode</small>
+              <strong>{snapshot.source === "automanager-xml" ? "Live" : "Test"}</strong>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="inventorySection inventoryPageSection">
-        <div className="inventoryToolbar">
-          <form action="/inventory" method="get">
-            <label>
-              Search inventory
-              <input
-                name="q"
-                placeholder="Search trucks, SUVs, make, model, stock..."
-                defaultValue={query}
-              />
-            </label>
+      <section className="inventoryFocusSection">
+        <div className="inventoryFocusShell">
+          <div className="inventoryFilterRow">
+            <form className="filterRow" action="/inventory" method="get">
+              <label>
+                Search inventory
+                <input
+                  name="q"
+                  placeholder="Search trucks, SUVs, make, model, stock..."
+                  defaultValue={query}
+                />
+              </label>
 
-            <button className="buttonPrimary" type="submit">
-              Search
-            </button>
+              <button className="buttonPrimary" type="submit">
+                Search
+              </button>
 
-            <Link className="buttonGhost" href="/inventory">
-              Reset
-            </Link>
-          </form>
+              <Link className="buttonGhost" href="/inventory">
+                Reset
+              </Link>
+            </form>
+          </div>
+
+          {snapshot.errors.length > 0 ? (
+            <div className="noticeCard">
+              <h2>Inventory is temporarily unavailable.</h2>
+              <p>Please call Repete Auto for current availability.</p>
+            </div>
+          ) : vehicles.length > 0 ? (
+            <div className="inventoryGridPremium inventoryGridShowcase">
+              {vehicles.map((vehicle) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              ))}
+            </div>
+          ) : (
+            <div className="noticeCard">
+              <h2>No matching vehicles found.</h2>
+              <p>Try another search or call Repete Auto for help finding the right vehicle.</p>
+              <Link className="textLink" href="/inventory">
+                View all inventory <ArrowRight size={16} />
+              </Link>
+            </div>
+          )}
         </div>
-
-        {snapshot.errors.length > 0 ? (
-          <div className="noticeCard">
-            <h2>Inventory is temporarily unavailable.</h2>
-            <p>Please call Repete Auto for current availability.</p>
-          </div>
-        ) : vehicles.length > 0 ? (
-          <div className="inventoryGrid">
-            {vehicles.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
-            ))}
-          </div>
-        ) : (
-          <div className="noticeCard">
-            <h2>No matching vehicles found.</h2>
-            <p>Try another search or call Repete Auto for help finding the right vehicle.</p>
-          </div>
-        )}
       </section>
 
       <SiteFooter />
