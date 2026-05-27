@@ -107,8 +107,8 @@ export default async function Home() {
 
           <div className="heroPanelCard">
             <div className="heroPanelTop">
-              <span>Inventory Status</span>
-              <span className="liveDot">{snapshot.source === "automanager-xml" ? "Live Feed" : "Fixture Mode"}</span>
+              <span>Current Inventory</span>
+              <span className="liveDot">{snapshot.source === "automanager-xml" ? "Updated Inventory" : "Inventory Preview"}</span>
             </div>
 
             <div className="vehicleSilhouette">
@@ -119,10 +119,10 @@ export default async function Home() {
             </div>
 
             <div>
-              <p>Current build</p>
+              <p>Current inventory</p>
               <h2>{snapshot.vehicleCount} vehicles loaded</h2>
               <span>
-                Inventory display is powered by a cached AutoManager XML feed and designed to preserve the existing DeskManager/WebManager workflow.
+                Inventory display is powered by a cached dealership inventory system and built around Repete Auto&apos;s normal dealership process.
               </span>
             </div>
           </div>

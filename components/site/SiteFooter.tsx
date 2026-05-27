@@ -15,7 +15,7 @@ export function SiteFooter() {
           />
 
           <p>
-            © 2026 Repete Auto. Custom website powered by an approved AutoManager inventory feed.
+            © 2026 Repete Auto. Custom website powered by an approved dealership inventory system.
           </p>
         </div>
 

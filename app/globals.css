@@ -1623,3 +1623,10 @@ textarea {
     transform: translateY(0);
   }
 }
+
+.formNote {
+  margin: 0.9rem 0 0;
+  color: rgba(246, 241, 221, 0.58);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}

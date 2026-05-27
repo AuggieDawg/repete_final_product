@@ -9,7 +9,7 @@ import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 export const metadata: Metadata = {
   title: "Inventory | Repete Auto in Vernal, Utah",
   description:
-    "Browse Repete Auto inventory in Vernal, Utah. Trucks, SUVs, cars, and work-ready vehicles powered by AutoManager inventory data."
+    "Browse Repete Auto inventory in Vernal, Utah. Trucks, SUVs, cars, and work-ready vehicles updated from Repete Auto's dealership inventory system."
 };
 
 function getSearchValue(searchParams: Record<string, string | string[] | undefined>, key: string) {
@@ -56,10 +56,10 @@ export default async function InventoryPage({
       <section className="inventoryPageHeroCompact">
         <div className="shell inventoryHeroCompactShell">
           <div className="inventoryHeroCompactCopy">
-            <p className="eyebrow">AutoManager Inventory Feed</p>
+            <p className="eyebrow">Updated Dealership Inventory</p>
             <h1>Repete Auto Inventory</h1>
             <p>
-              Premium inventory presentation powered by Repete Auto&apos;s approved AutoManager XML feed.
+              Premium inventory presentation powered by Repete Auto&apos;s approved dealership inventory system.
               Call to confirm availability, price, and final vehicle details.
             </p>
           </div>

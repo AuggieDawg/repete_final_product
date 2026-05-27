@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Phone, MapPin, Clock } from "lucide-react";
+import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { siteConfig } from "@/lib/site/site";
-import { businessHours } from "@/lib/site/business-hours";
 
 export const metadata: Metadata = {
-  title: "Contact Repete Auto | Vernal, Utah",
+  title: "Contact Repete Auto | Used Cars & Trucks in Vernal, Utah",
   description:
-    "Contact Repete Auto in Vernal, Utah for inventory questions, test drives, financing questions, and vehicle finder requests."
+    "Contact Repete Auto in Vernal, Utah for current inventory, vehicle availability, trade-in questions, and dealership information."
 };
 
 export default function ContactPage() {
@@ -16,69 +15,106 @@ export default function ContactPage() {
     <main>
       <SiteNav />
 
-      <section className="contactSection contactStandalone">
-        <div className="contactGrid">
-          <div>
-            <p className="eyebrow">Contact</p>
-            <h2>Repete Auto</h2>
+      <section className="pageHero">
+        <p className="eyebrow">Contact Repete Auto</p>
+        <h1>Talk to the lot.</h1>
+        <p>
+          Call Repete Auto for current vehicle availability, test drive questions,
+          trade-in interest, financing questions, and dealership information.
+        </p>
+      </section>
 
-            <p className="contactLead">
-              Call, visit the lot, or send an inquiry about current inventory, test drives, trade-ins, or vehicle finder requests.
-            </p>
-
-            <div className="contactRows">
-              <a href={siteConfig.phoneHref} className="contactRow">
-                <Phone size={20} />
-                <span><small>Phone</small>{siteConfig.phoneDisplay}</span>
-              </a>
-
-              <a href={siteConfig.mapsUrl} target="_blank" rel="noreferrer" className="contactRow">
-                <MapPin size={20} />
-                <span><small>Address</small>{siteConfig.addressLine1}, {siteConfig.cityStateZip}</span>
-              </a>
-
-              <div className="contactRow">
-                <Clock size={20} />
-                <span>
-                  <small>Hours</small>
-                  {businessHours.map((item) => `${item.day}: ${item.label}`).join(" · ")}
-                </span>
+      <section className="contactPageSection sectionBlock">
+        <div className="shell contactPageGrid">
+          <div className="contactInfoStack">
+            <article className="contactInfoCard">
+              <Phone size={24} />
+              <div>
+                <small>Phone</small>
+                <strong>{siteConfig.phoneDisplay}</strong>
+                <p>Best for immediate inventory, pricing, and availability questions.</p>
               </div>
-            </div>
+            </article>
+
+            <article className="contactInfoCard">
+              <MapPin size={24} />
+              <div>
+                <small>Location</small>
+                <strong>{siteConfig.addressLine1}</strong>
+                <p>{siteConfig.cityStateZip}</p>
+              </div>
+            </article>
+
+            <article className="contactInfoCard">
+              <Mail size={24} />
+              <div>
+                <small>Email</small>
+                <strong>{siteConfig.email}</strong>
+                <p>Use email for general questions or follow-up details.</p>
+              </div>
+            </article>
+
+            <article className="contactInfoCard">
+              <ShieldCheck size={24} />
+              <div>
+                <small>Lead Routing</small>
+                <strong>Connected to the dealership workflow</strong>
+                <p>
+                  Online form routing is being aligned with Repete Auto&apos;s existing
+                  dealership system so customer inquiries stay in the normal sales process.
+                </p>
+              </div>
+            </article>
           </div>
 
-          <form className="contactForm">
-            <div className="formSplit">
-              <label>First name<input placeholder="John" /></label>
-              <label>Last name<input placeholder="Smith" /></label>
-            </div>
+          <div className="leadFormCard">
+            <p className="eyebrow">Customer Inquiry</p>
+            <h2>Need help with a vehicle?</h2>
+            <p>
+              The online inquiry form is being connected to Repete Auto&apos;s existing
+              dealership workflow. For immediate help, call the lot directly.
+            </p>
 
-            <div className="formSplit">
-              <label>Phone<input placeholder="(435) 555-0000" /></label>
-              <label>Email<input placeholder="john@email.com" /></label>
-            </div>
+            <form>
+              <div className="formRow">
+                <label>
+                  First name
+                  <input placeholder="John" />
+                </label>
 
-            <label>
-              Inquiry type
-              <select defaultValue="">
-                <option value="" disabled>Select one</option>
-                <option>Inventory question</option>
-                <option>Schedule test drive</option>
-                <option>Financing question</option>
-                <option>Trade-in question</option>
-                <option>Vehicle finder request</option>
-              </select>
-            </label>
+                <label>
+                  Last name
+                  <input placeholder="Smith" />
+                </label>
+              </div>
 
-            <label>Message<textarea placeholder="What vehicle are you interested in?" /></label>
+              <div className="formRow">
+                <label>
+                  Phone
+                  <input placeholder="(435) 555-0000" />
+                </label>
 
-            <a
-              className="buttonPrimary fullWidth"
-              href={`mailto:${siteConfig.email}?subject=Website%20Inquiry%20from%20Repete%20Auto`}
-            >
-              Send Inquiry
-            </a>
-          </form>
+                <label>
+                  Email
+                  <input placeholder="john@email.com" />
+                </label>
+              </div>
+
+              <label>
+                Message
+                <textarea placeholder="What vehicle are you interested in?" />
+              </label>
+
+              <a className="buttonPrimary fullWidth" href={siteConfig.phoneHref}>
+                Call {siteConfig.phoneDisplay}
+              </a>
+
+              <p className="formNote">
+                Online submission will be activated after AutoManager confirms the supported
+                lead-routing method for Repete Auto.
+              </p>
+            </form>
+          </div>
         </div>
       </section>
 
