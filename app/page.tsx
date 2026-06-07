@@ -84,6 +84,14 @@ export default async function Home() {
                 View Inventory <ArrowRight size={16} />
               </Link>
 
+              <Link className="buttonGhost" href="/schedule-test-drive">
+                Schedule Test Drive
+              </Link>
+
+              <Link className="buttonGhost" href="/vehicle-finder">
+                Vehicle Finder
+              </Link>
+
               <Link className="buttonGhost" href="/sell-us-your-car">
                 Sell Us Your Car
               </Link>
@@ -241,6 +249,8 @@ export default async function Home() {
 
             <div className="actionStack">
               <Link className="buttonPrimary fullWidth" href="/inventory">Browse Inventory</Link>
+              <Link className="buttonGhost fullWidth" href="/schedule-test-drive">Schedule Test Drive</Link>
+              <Link className="buttonGhost fullWidth" href="/vehicle-finder">Vehicle Finder</Link>
               <Link className="buttonGhost fullWidth" href="/sell-us-your-car">Sell Us Your Car</Link>
               <Link className="buttonGhost fullWidth" href="/contact">Contact Us</Link>
               <Link className="buttonGhost fullWidth" href="/location">Location</Link>
