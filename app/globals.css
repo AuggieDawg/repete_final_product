@@ -1733,3 +1733,20 @@ textarea {
     border-radius: 18px;
   }
 }
+
+/* Pre-review dealership content polish */
+.detailCard .heroActions {
+  margin-top: 1.35rem;
+}
+
+.detailCard .heroActions .buttonPrimary,
+.detailCard .heroActions .buttonGhost {
+  width: 100%;
+}
+
+@media (min-width: 760px) {
+  .detailCard .heroActions .buttonPrimary,
+  .detailCard .heroActions .buttonGhost {
+    width: auto;
+  }
+}

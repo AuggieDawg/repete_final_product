@@ -15,13 +15,15 @@ export function SiteFooter() {
           />
 
           <p>
-            © 2026 Repete Auto. Custom website powered by an approved dealership inventory system.
+            © 2026 Repete Auto. Used cars, trucks, SUVs, and local dealership support in Vernal, Utah.
           </p>
         </div>
 
         <div className="footerLinks">
           <Link href="/inventory">Inventory</Link>
-          <Link href="/sell-us-your-car">Sell Us Your Car</Link>
+          <Link href="/schedule-test-drive">Schedule Test Drive</Link>
+          <Link href="/vehicle-finder">Vehicle Finder</Link>
+          <Link href="/sell-us-your-car">Sell or Trade</Link>
           <Link href="/contact">Contact Us</Link>
           <Link href="/location">Location</Link>
           <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>

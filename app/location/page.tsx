@@ -5,9 +5,9 @@ import { siteConfig } from "@/lib/site/site";
 import { businessHours } from "@/lib/site/business-hours";
 
 export const metadata: Metadata = {
-  title: "Location & Hours | Repete Auto",
+  title: "Location & Hours | Repete Auto in Vernal, Utah",
   description:
-    "Find Repete Auto at 2295 US-40 in Vernal, Utah. View hours, directions, and contact details."
+    "Visit Repete Auto at 2295 US-40 in Vernal, Utah. View hours, get directions, call the dealership, or schedule a test drive."
 };
 
 export default function LocationPage() {
@@ -16,10 +16,11 @@ export default function LocationPage() {
       <SiteNav />
 
       <section className="pageHero">
-        <p className="eyebrow">Location</p>
-        <h1>Visit Repete Auto</h1>
+        <p className="eyebrow">Location & Hours</p>
+        <h1>Visit Repete Auto in Vernal</h1>
         <p>
-          {siteConfig.addressLine1}, {siteConfig.cityStateZip}. Call ahead to confirm inventory availability and test drive timing.
+          Find Repete Auto at {siteConfig.addressLine1}, {siteConfig.cityStateZip}.
+          Call ahead to confirm vehicle availability, schedule a test drive, or ask questions before stopping by.
         </p>
 
         <div className="heroActions">
@@ -29,6 +30,14 @@ export default function LocationPage() {
 
           <a className="buttonGhost" href={siteConfig.phoneHref}>
             Call {siteConfig.phoneDisplay}
+          </a>
+
+          <a className="buttonGhost" href="/schedule-test-drive">
+            Schedule Test Drive
+          </a>
+
+          <a className="buttonGhost" href="/inventory">
+            View Inventory
           </a>
         </div>
       </section>

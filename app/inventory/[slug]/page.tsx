@@ -38,7 +38,7 @@ export async function generateMetadata({
 
   return {
     title: `${vehicle.title} | Repete Auto`,
-    description: `View details for this ${vehicle.title} at Repete Auto in Vernal, Utah. Call to confirm availability, price, and test drive options.`
+    description: `View photos, mileage, price, and key details for this ${vehicle.title} at Repete Auto in Vernal, Utah. Call to confirm availability and test drive options.`
   };
 }
 
@@ -56,6 +56,7 @@ export default async function VehicleDetailPage({
   }
 
   const primaryPhoto = vehicle.photos[0];
+  const emailSubject = encodeURIComponent(`Question about ${vehicle.title}`);
 
   return (
     <main>
@@ -66,7 +67,8 @@ export default async function VehicleDetailPage({
           <p className="eyebrow">{vehicle.stockNumber ? `Stock #${vehicle.stockNumber}` : "Repete Auto Inventory"}</p>
           <h1>{vehicle.title}</h1>
           <p>
-            {vehicle.description || "Call Repete Auto for complete vehicle details, availability, and test drive options."}
+            {vehicle.description ||
+              "Review photos, mileage, price, and key details. Call Repete Auto to confirm availability, ask questions, or schedule a time to see the vehicle in person."}
           </p>
 
           <div className="heroActions">
@@ -74,9 +76,13 @@ export default async function VehicleDetailPage({
               Call About This Vehicle
             </a>
 
+            <a className="buttonGhost" href="/schedule-test-drive">
+              Schedule Test Drive
+            </a>
+
             <a
               className="buttonGhost"
-              href={`mailto:${siteConfig.email}?subject=Question%20about%20${encodeURIComponent(vehicle.title)}`}
+              href={`mailto:${siteConfig.email}?subject=${emailSubject}`}
             >
               Email Repete Auto
             </a>
@@ -120,8 +126,30 @@ export default async function VehicleDetailPage({
               ))}
             </ul>
           ) : (
-            <p>Call Repete Auto for the full feature list.</p>
+            <p>Call Repete Auto for the full feature list and current vehicle details.</p>
           )}
+        </div>
+
+        <div className="detailCard">
+          <h2>Interested in this vehicle?</h2>
+          <p>
+            Inventory can change quickly. Call Repete Auto to confirm availability, ask about the vehicle,
+            or request a test drive before visiting the lot.
+          </p>
+
+          <div className="heroActions">
+            <a className="buttonPrimary" href={siteConfig.phoneHref}>
+              Call {siteConfig.phoneDisplay}
+            </a>
+
+            <a className="buttonGhost" href="/schedule-test-drive">
+              Schedule Test Drive
+            </a>
+
+            <a className="buttonGhost" href="/inventory">
+              Back to Inventory
+            </a>
+          </div>
         </div>
       </section>
 

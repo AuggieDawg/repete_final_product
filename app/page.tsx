@@ -16,23 +16,23 @@ import { siteConfig } from "@/lib/site/site";
 
 const trustItems = [
   {
-    title: "Community Driven",
-    text: "A local dealership experience built around repeat relationships, straight answers, and vehicles that make sense for the Uintah Basin.",
+    title: "Built for Local Roads",
+    text: "Shop used cars, trucks, SUVs, and work-ready vehicles selected for Vernal drivers, Uintah Basin roads, and everyday needs.",
     icon: Sparkles
   },
   {
-    title: "AutoManager Powered",
-    text: "Inventory remains controlled through AutoManager while this custom website presents the vehicles in a premium customer-facing experience.",
+    title: "Current Vehicle Details",
+    text: "Browse pricing, mileage, photos, stock numbers, and key details before calling or visiting the lot.",
     icon: CarFront
   },
   {
-    title: "Straightforward Contact",
-    text: "Fast paths for calls, directions, test drive requests, financing questions, and inventory interest without burying the customer.",
+    title: "Simple Next Steps",
+    text: "View inventory, schedule a test drive, ask about a vehicle, or contact the dealership without digging through a cluttered site.",
     icon: BadgeCheck
   },
   {
-    title: "Built to Expand",
-    text: "This launch can grow into richer SEO pages, lead routing, vehicle finder workflows, analytics, and conversion improvements.",
+    title: "Sell or Trade",
+    text: "Have a vehicle to sell or trade? Send Repete Auto the details and the team can review the opportunity.",
     icon: ShieldCheck
   }
 ];
@@ -75,8 +75,9 @@ export default async function Home() {
             </h1>
 
             <p className="heroText">
-              Trucks, SUVs, work rigs, and reliable daily drivers chosen for Vernal, the Uintah Basin,
-              and the people who need vehicles that are ready to move.
+              Shop used cars, trucks, SUVs, and work-ready vehicles selected for Vernal,
+              the Uintah Basin, and drivers who need something dependable for real roads,
+              real weather, and real life.
             </p>
 
             <div className="heroActions">
@@ -130,7 +131,7 @@ export default async function Home() {
               <p>Current inventory</p>
               <h2>{snapshot.vehicleCount} vehicles loaded</h2>
               <span>
-                Inventory display is powered by a cached dealership inventory system and built around Repete Auto&apos;s normal dealership process.
+                Browse current vehicles, review key details, and call Repete Auto to confirm availability before making the trip.
               </span>
             </div>
           </div>
@@ -141,7 +142,7 @@ export default async function Home() {
         <div className="shell sectionHeaderBlock">
           <div>
             <p className="eyebrow">Current Inventory</p>
-            <h2>Inventory preview</h2>
+            <h2>Shop current vehicles</h2>
           </div>
 
           <Link className="textLink" href="/inventory">
@@ -166,8 +167,8 @@ export default async function Home() {
       <section className="whySection" id="why">
         <div className="sectionHeader">
           <div>
-            <p className="eyebrow">The Pitch</p>
-            <h2>A better site should make the phone ring.</h2>
+            <p className="eyebrow">Why Shop Here</p>
+            <h2>A simpler way to find your next vehicle.</h2>
           </div>
         </div>
 
@@ -189,11 +190,11 @@ export default async function Home() {
       <section className="finderSection">
         <div className="finderCard">
           <div>
-            <p className="eyebrow">Sell Us Your Car</p>
+            <p className="eyebrow">Sell or Trade</p>
             <h2>Have a vehicle to sell or trade?</h2>
             <p>
-              Repete Auto can review cars, trucks, SUVs, and work vehicles. This launch keeps the process simple:
-              customers contact Repete directly while inventory remains controlled by AutoManager.
+              Repete Auto can review cars, trucks, SUVs, and work vehicles. Send the details,
+              ask about trade options, or call the dealership before stopping by.
             </p>
           </div>
 
@@ -216,7 +217,7 @@ export default async function Home() {
             <h2>Repete Auto</h2>
 
             <p className="contactLead">
-              Call, visit the lot, or use this site to find the vehicle that fits your work, family, and road needs.
+              Call, visit the lot, schedule a test drive, or use the vehicle finder to help locate the right fit.
             </p>
 
             <div className="contactRows">
@@ -244,14 +245,14 @@ export default async function Home() {
           </div>
 
           <div className="detailCard">
-            <p className="eyebrow">Primary Actions</p>
-            <h2>What customers can do</h2>
+            <p className="eyebrow">Start Here</p>
+            <h2>Choose your next step</h2>
 
             <div className="actionStack">
               <Link className="buttonPrimary fullWidth" href="/inventory">Browse Inventory</Link>
               <Link className="buttonGhost fullWidth" href="/schedule-test-drive">Schedule Test Drive</Link>
               <Link className="buttonGhost fullWidth" href="/vehicle-finder">Vehicle Finder</Link>
-              <Link className="buttonGhost fullWidth" href="/sell-us-your-car">Sell Us Your Car</Link>
+              <Link className="buttonGhost fullWidth" href="/sell-us-your-car">Sell or Trade</Link>
               <Link className="buttonGhost fullWidth" href="/contact">Contact Us</Link>
               <Link className="buttonGhost fullWidth" href="/location">Location</Link>
             </div>

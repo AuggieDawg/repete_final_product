@@ -7,9 +7,9 @@ import { VehicleCard } from "@/components/inventory/VehicleCard";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 
 export const metadata: Metadata = {
-  title: "Inventory | Repete Auto in Vernal, Utah",
+  title: "Used Cars, Trucks & SUVs | Repete Auto in Vernal, Utah",
   description:
-    "Browse Repete Auto inventory in Vernal, Utah. Trucks, SUVs, cars, and work-ready vehicles updated from Repete Auto's dealership inventory system."
+    "Browse Repete Auto's current used cars, trucks, SUVs, and work-ready vehicles in Vernal, Utah. Call to confirm availability, price, and test drive options."
 };
 
 function getSearchValue(searchParams: Record<string, string | string[] | undefined>, key: string) {
@@ -56,11 +56,11 @@ export default async function InventoryPage({
       <section className="inventoryPageHeroCompact">
         <div className="shell inventoryHeroCompactShell">
           <div className="inventoryHeroCompactCopy">
-            <p className="eyebrow">Updated Dealership Inventory</p>
-            <h1>Repete Auto Inventory</h1>
+            <p className="eyebrow">Current Used Vehicle Inventory</p>
+            <h1>Used Cars, Trucks & SUVs in Vernal</h1>
             <p>
-              Premium inventory presentation powered by Repete Auto&apos;s approved dealership inventory system.
-              Call to confirm availability, price, and final vehicle details.
+              Browse current used cars, trucks, SUVs, and work-ready vehicles at Repete Auto.
+              Inventory can move quickly, so call to confirm availability before making the trip.
             </p>
           </div>
 
@@ -76,8 +76,8 @@ export default async function InventoryPage({
             </div>
 
             <div>
-              <small>Mode</small>
-              <strong>{snapshot.source === "automanager-xml" ? "Live" : "Test"}</strong>
+              <small>Status</small>
+              <strong>{snapshot.source === "automanager-xml" ? "Updated" : "Preview"}</strong>
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default async function InventoryPage({
                 Search inventory
                 <input
                   name="q"
-                  placeholder="Search trucks, SUVs, make, model, stock..."
+                  placeholder="Search trucks, SUVs, make, model, stock, VIN..."
                   defaultValue={query}
                 />
               </label>
@@ -120,10 +120,15 @@ export default async function InventoryPage({
           ) : (
             <div className="noticeCard">
               <h2>No matching vehicles found.</h2>
-              <p>Try another search or call Repete Auto for help finding the right vehicle.</p>
-              <Link className="textLink" href="/inventory">
-                View all inventory <ArrowRight size={16} />
-              </Link>
+              <p>Try another search, use Vehicle Finder, or call Repete Auto for help finding the right vehicle.</p>
+              <div className="heroActions">
+                <Link className="buttonPrimary" href="/inventory">
+                  View All Inventory
+                </Link>
+                <Link className="buttonGhost" href="/vehicle-finder">
+                  Vehicle Finder
+                </Link>
+              </div>
             </div>
           )}
         </div>

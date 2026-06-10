@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <WebManagerFormFrame
       title="Contact Repete Auto"
-      description="Send a direct message to the dealership. This page is for general questions, vehicle questions, hours, location, and next steps."
+      description="Have a question about a vehicle, availability, trade-ins, financing, or visiting the lot? Send Repete Auto a message and the team will follow up."
       src={webManagerUrls.contact}
       iframeHeight={1650}
       actions={[

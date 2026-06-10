@@ -7,7 +7,9 @@ export const siteConfig = {
   cityStateZip: "Vernal, UT 84078",
   mapsUrl: "https://maps.google.com/?q=2295+US-40+Vernal+UT+84078",
   inventoryLabel: "Inventory",
-  sellUsYourCarLabel: "Sell Us Your Car",
+  scheduleTestDriveLabel: "Schedule Test Drive",
+  vehicleFinderLabel: "Vehicle Finder",
+  sellUsYourCarLabel: "Sell or Trade",
   contactLabel: "Contact Us",
   locationLabel: "Location"
 };

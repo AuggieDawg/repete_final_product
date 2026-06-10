@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <WebManagerFormFrame
       title="Schedule a Test Drive"
-      description="Request a time to see a vehicle in person. If you are driving from outside Vernal, call first to confirm availability."
+      description="Request a time to see a vehicle in person. If you are driving from outside Vernal, call first to confirm availability before making the trip."
       src={webManagerUrls.scheduleTestDrive}
       iframeHeight={1750}
       actions={[
