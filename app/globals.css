@@ -1750,3 +1750,67 @@ textarea {
     width: auto;
   }
 }
+
+
+/* First-review availability callouts */
+.availabilityPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.availabilityPanelBody p {
+  margin: 1.25rem 0 0.75rem;
+  color: rgba(246, 241, 221, 0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.availabilityPanelBody h2 {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2.5rem, 4vw, 4.2rem);
+  line-height: 0.94;
+  letter-spacing: 0.045em;
+  margin: 0 0 1rem;
+  color: var(--yellow);
+}
+
+.availabilityPanelBody span {
+  color: rgba(246, 241, 221, 0.74);
+  line-height: 1.65;
+}
+
+.availabilityPanelActions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.inventoryAvailabilityNote {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 1.25rem;
+  background:
+    linear-gradient(135deg, rgba(255, 210, 0, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(8, 8, 8, 0.72);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.35);
+  max-width: 500px;
+}
+
+.inventoryAvailabilityNote strong {
+  display: block;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.045em;
+  color: var(--yellow);
+}
+
+.inventoryAvailabilityNote span {
+  display: block;
+  margin-top: 0.85rem;
+  color: rgba(246, 241, 221, 0.72);
+  line-height: 1.65;
+}

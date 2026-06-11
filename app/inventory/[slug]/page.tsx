@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteNav } from "@/components/site/SiteNav";
@@ -76,9 +77,9 @@ export default async function VehicleDetailPage({
               Call About This Vehicle
             </a>
 
-            <a className="buttonGhost" href="/schedule-test-drive">
+            <Link className="buttonGhost" href="/schedule-test-drive">
               Schedule Test Drive
-            </a>
+            </Link>
 
             <a
               className="buttonGhost"
@@ -142,13 +143,13 @@ export default async function VehicleDetailPage({
               Call {siteConfig.phoneDisplay}
             </a>
 
-            <a className="buttonGhost" href="/schedule-test-drive">
+            <Link className="buttonGhost" href="/schedule-test-drive">
               Schedule Test Drive
-            </a>
+            </Link>
 
-            <a className="buttonGhost" href="/inventory">
+            <Link className="buttonGhost" href="/inventory">
               Back to Inventory
-            </a>
+            </Link>
           </div>
         </div>
       </section>

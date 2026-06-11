@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -32,13 +33,13 @@ export default function LocationPage() {
             Call {siteConfig.phoneDisplay}
           </a>
 
-          <a className="buttonGhost" href="/schedule-test-drive">
+          <Link className="buttonGhost" href="/schedule-test-drive">
             Schedule Test Drive
-          </a>
+          </Link>
 
-          <a className="buttonGhost" href="/inventory">
+          <Link className="buttonGhost" href="/inventory">
             View Inventory
-          </a>
+          </Link>
         </div>
       </section>
 

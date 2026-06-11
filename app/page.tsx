@@ -114,25 +114,28 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="heroPanelCard">
+          <div className="heroPanelCard availabilityPanel">
             <div className="heroPanelTop">
-              <span>Current Inventory</span>
-              <span className="liveDot">{snapshot.source === "automanager-xml" ? "Updated Inventory" : "Inventory Preview"}</span>
+              <span>Before You Drive In</span>
+              <span className="liveDot">Call Ahead</span>
             </div>
 
-            <div className="vehicleSilhouette">
-              <div className="vehicleCab" />
-              <div className="vehicleBed" />
-              <div className="wheel wheelOne" />
-              <div className="wheel wheelTwo" />
-            </div>
-
-            <div>
-              <p>Current inventory</p>
-              <h2>{snapshot.vehicleCount} vehicles loaded</h2>
+            <div className="availabilityPanelBody">
+              <p>Inventory moves quickly</p>
+              <h2>Call Repete Auto to confirm availability before making the trip.</h2>
               <span>
-                Browse current vehicles, review key details, and call Repete Auto to confirm availability before making the trip.
+                Ask about current vehicles, test drive timing, trade-in questions, and the best next step before heading to the lot.
               </span>
+            </div>
+
+            <div className="availabilityPanelActions">
+              <a className="buttonPrimary fullWidth" href={siteConfig.phoneHref}>
+                Call {siteConfig.phoneDisplay}
+              </a>
+
+              <Link className="buttonGhost fullWidth" href="/schedule-test-drive">
+                Schedule Test Drive
+              </Link>
             </div>
           </div>
         </div>

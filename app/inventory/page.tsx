@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { VehicleCard } from "@/components/inventory/VehicleCard";
@@ -64,21 +63,11 @@ export default async function InventoryPage({
             </p>
           </div>
 
-          <div className="inventoryHeroMeta">
-            <div>
-              <small>Vehicles</small>
-              <strong>{snapshot.vehicleCount}</strong>
-            </div>
-
-            <div>
-              <small>Photos</small>
-              <strong>{snapshot.photoCount}</strong>
-            </div>
-
-            <div>
-              <small>Status</small>
-              <strong>{snapshot.source === "automanager-xml" ? "Updated" : "Preview"}</strong>
-            </div>
+          <div className="inventoryAvailabilityNote">
+            <strong>Call Repete Auto to confirm availability before making the trip.</strong>
+            <span>
+              Current inventory can move quickly. Call ahead, schedule a test drive, or use Vehicle Finder if you are searching for something specific.
+            </span>
           </div>
         </div>
       </section>
