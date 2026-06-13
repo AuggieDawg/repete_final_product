@@ -15,6 +15,8 @@ type WebManagerFormFrameProps = {
   src: string;
   iframeHeight?: number;
   actions?: FormAction[];
+  floatingBackHref?: string;
+  floatingBackLabel?: string;
 };
 
 export function WebManagerFormFrame({
@@ -24,10 +26,23 @@ export function WebManagerFormFrame({
   src,
   iframeHeight = 1650,
   actions = [],
+  floatingBackHref,
+  floatingBackLabel = "Back",
 }: WebManagerFormFrameProps) {
   return (
     <main className="webmanagerPage">
       <SiteNav />
+
+      {floatingBackHref ? (
+        <Link
+          className="floatingBackToInventory"
+          href={floatingBackHref}
+          aria-label={floatingBackLabel}
+          title={floatingBackLabel}
+        >
+          ←
+        </Link>
+      ) : null}
 
       <section className="webmanagerHero">
         <div className="heroOverlay" />

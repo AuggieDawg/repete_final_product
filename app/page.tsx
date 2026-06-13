@@ -81,7 +81,7 @@ export default async function Home() {
             </p>
 
             <div className="heroActions">
-              <Link className="buttonPrimary" href="/inventory">
+              <Link className="buttonPrimary inventoryCtaLarge" href="/inventory">
                 View Inventory <ArrowRight size={16} />
               </Link>
 
@@ -108,8 +108,8 @@ export default async function Home() {
                 <span>Vernal, UT</span>
               </div>
               <div>
-                <strong>AutoManager</strong>
-                <span>Inventory feed</span>
+                <strong>{siteConfig.noDocFeesLabel}</strong>
+                <span>No dealer documentation fee</span>
               </div>
             </div>
           </div>
@@ -252,7 +252,7 @@ export default async function Home() {
             <h2>Choose your next step</h2>
 
             <div className="actionStack">
-              <Link className="buttonPrimary fullWidth" href="/inventory">Browse Inventory</Link>
+              <Link className="buttonPrimary fullWidth inventoryCtaEmphasis" href="/inventory">Browse Inventory</Link>
               <Link className="buttonGhost fullWidth" href="/schedule-test-drive">Schedule Test Drive</Link>
               <Link className="buttonGhost fullWidth" href="/vehicle-finder">Vehicle Finder</Link>
               <Link className="buttonGhost fullWidth" href="/sell-us-your-car">Sell or Trade</Link>

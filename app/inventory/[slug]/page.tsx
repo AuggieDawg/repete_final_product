@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { VehiclePhotoGallery } from "@/components/inventory/VehiclePhotoGallery";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 import { siteConfig } from "@/lib/site/site";
 
@@ -56,12 +57,18 @@ export default async function VehicleDetailPage({
     notFound();
   }
 
-  const primaryPhoto = vehicle.photos[0];
-  const emailSubject = encodeURIComponent(`Question about ${vehicle.title}`);
-
   return (
     <main>
       <SiteNav />
+
+      <Link
+        className="floatingBackToInventory"
+        href="/inventory"
+        aria-label="Back to inventory"
+        title="Back to Inventory"
+      >
+        ←
+      </Link>
 
       <section className="vehicleDetailHero">
         <div>
@@ -69,7 +76,7 @@ export default async function VehicleDetailPage({
           <h1>{vehicle.title}</h1>
           <p>
             {vehicle.description ||
-              "Review photos, mileage, price, and key details. Call Repete Auto to confirm availability, ask questions, or schedule a time to see the vehicle in person."}
+              "Review photos, mileage, price, and key details. Call Repete Auto to confirm availability before making the trip."}
           </p>
 
           <div className="heroActions">
@@ -77,25 +84,47 @@ export default async function VehicleDetailPage({
               Call About This Vehicle
             </a>
 
-            <Link className="buttonGhost" href="/schedule-test-drive">
-              Schedule Test Drive
+            <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/credit-application`}>
+              Start Credit Application
             </Link>
 
-            <a
-              className="buttonGhost"
-              href={`mailto:${siteConfig.email}?subject=${emailSubject}`}
-            >
-              Email Repete Auto
-            </a>
+            <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/schedule-test-drive`}>
+              Schedule Test Drive
+            </Link>
           </div>
         </div>
 
-        <div className="vehicleDetailMedia">
-          {primaryPhoto ? (
-            <img src={primaryPhoto} alt={vehicle.title} />
-          ) : (
-            <div className="vehiclePlaceholder">Photo coming soon</div>
-          )}
+        <VehiclePhotoGallery photos={vehicle.photos} title={vehicle.title} />
+      </section>
+
+      <section className="vehicleConversionSection">
+        <div className="vehicleConversionGrid">
+          <div className="detailCard noDocFeesCard">
+            <strong>{siteConfig.noDocFeesLabel}</strong>
+            <p>{siteConfig.noDocFeesDescription}</p>
+          </div>
+
+          <div className="detailCard vehicleLeadCard">
+            <h2>Interested in this vehicle?</h2>
+            <p>
+              Inventory can change quickly. Call Repete Auto to confirm availability,
+              start a credit application, or request a test drive before visiting the lot.
+            </p>
+
+            <div className="vehicleActionGrid">
+              <a className="buttonPrimary" href={siteConfig.phoneHref}>
+                Call {siteConfig.phoneDisplay}
+              </a>
+
+              <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/credit-application`}>
+                Start Credit Application
+              </Link>
+
+              <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/schedule-test-drive`}>
+                Schedule Test Drive
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -130,37 +159,7 @@ export default async function VehicleDetailPage({
             <p>Call Repete Auto for the full feature list and current vehicle details.</p>
           )}
         </div>
-
-        <div className="detailCard">
-          <h2>Interested in this vehicle?</h2>
-          <p>
-            Inventory can change quickly. Call Repete Auto to confirm availability, ask about the vehicle,
-            or request a test drive before visiting the lot.
-          </p>
-
-          <div className="heroActions">
-            <a className="buttonPrimary" href={siteConfig.phoneHref}>
-              Call {siteConfig.phoneDisplay}
-            </a>
-
-            <Link className="buttonGhost" href="/schedule-test-drive">
-              Schedule Test Drive
-            </Link>
-
-            <Link className="buttonGhost" href="/inventory">
-              Back to Inventory
-            </Link>
-          </div>
-        </div>
       </section>
-
-      {vehicle.photos.length > 1 ? (
-        <section className="photoStrip">
-          {vehicle.photos.slice(1, 7).map((photo) => (
-            <img key={photo} src={photo} alt={vehicle.title} loading="lazy" />
-          ))}
-        </section>
-      ) : null}
 
       <SiteFooter />
     </main>

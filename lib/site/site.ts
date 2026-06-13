@@ -11,5 +11,8 @@ export const siteConfig = {
   vehicleFinderLabel: "Vehicle Finder",
   sellUsYourCarLabel: "Sell or Trade",
   contactLabel: "Contact Us",
-  locationLabel: "Location"
+  locationLabel: "Location",
+  noDocFeesLabel: "NO DOC FEES",
+  noDocFeesDescription:
+    "Repete Auto does not add a separate dealer documentation fee. Taxes, title, registration, lender fees, and applicable government fees may still apply."
 };

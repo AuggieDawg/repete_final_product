@@ -101,6 +101,20 @@ function slugify(value: string): string {
     .slice(0, 100);
 }
 
+function normalizeAbsoluteWebManagerUrl(value?: string): string | undefined {
+  if (!value) return undefined;
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  if (value.startsWith("/")) {
+    return `https://www.repeteauto.com${value}`;
+  }
+
+  return undefined;
+}
+
 function stringLooksLikeImageUrl(value: string): boolean {
   return /^https?:\/\//i.test(value) && (
     /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(value) ||
@@ -295,6 +309,40 @@ function collectVehicleNodes(root: unknown): unknown[] {
 function normalizeVehicle(node: unknown, index: number): Vehicle | null {
   const stockNumber = cleanText(getDeepValue(node, ["StockNumber", "StockNo", "Stock", "StockNum"]));
   const vin = cleanText(getDeepValue(node, ["VIN", "Vin"]));
+  const webManagerId = cleanText(
+    getDeepValue(node, [
+      "VehicleID",
+      "VehicleId",
+      "WebManagerVehicleID",
+      "WebManagerVehicleId",
+      "AutoManagerVehicleID",
+      "AutoManagerVehicleId",
+      "InventoryVehicleID",
+      "InventoryVehicleId",
+      "ListingID",
+      "ListingId"
+    ])
+  );
+  const webManagerDetailUrl = normalizeAbsoluteWebManagerUrl(
+    cleanText(
+      getDeepValue(node, [
+        "WebManagerUrl",
+        "WebManagerURL",
+        "VehicleUrl",
+        "VehicleURL",
+        "VehicleDetailUrl",
+        "VehicleDetailURL",
+        "DetailUrl",
+        "DetailURL",
+        "DetailsUrl",
+        "DetailsURL",
+        "ListingUrl",
+        "ListingURL",
+        "VDPUrl",
+        "VDPURL"
+      ])
+    )
+  );
   const year = parseInteger(getDeepValue(node, ["Year", "ModelYear"]));
   const make = cleanText(getDeepValue(node, ["Make"]));
   const model = cleanText(getDeepValue(node, ["Model"]));
@@ -324,6 +372,8 @@ function normalizeVehicle(node: unknown, index: number): Vehicle | null {
     id: stableId,
     slug,
     detailUrl: `/inventory/${slug}`,
+    webManagerId,
+    webManagerDetailUrl,
     stockNumber,
     vin,
     year,

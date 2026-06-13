@@ -2,6 +2,8 @@ export type Vehicle = {
   id: string;
   slug: string;
   detailUrl: string;
+  webManagerId?: string;
+  webManagerDetailUrl?: string;
   stockNumber?: string;
   vin?: string;
   year?: number;
