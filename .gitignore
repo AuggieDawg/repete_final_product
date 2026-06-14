@@ -18,3 +18,7 @@ data/fixtures/*.normalized.json
 
 # Local safety backups created during manual code edits
 .local-backups/
+
+# Deployment/local environment files
+.env.*.local
+.client-private/

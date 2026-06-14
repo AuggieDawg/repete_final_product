@@ -1,0 +1,41 @@
+name: Repete Auto CI
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+      - staging
+
+jobs:
+  lint-and-build:
+    name: Lint and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run production build
+        run: npm run build
