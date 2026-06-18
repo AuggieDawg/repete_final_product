@@ -1,28 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type VehiclePhotoGalleryProps = {
   photos: string[];
   title: string;
 };
 
+const SWIPE_THRESHOLD_PX = 45;
+
+function getWrappedIndex(index: number, length: number) {
+  if (length <= 0) return 0;
+  return (index + length) % length;
+}
+
 export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps) {
   const cleanPhotos = photos.filter(Boolean);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const ignoreNextClickRef = useRef(false);
+
+  useEffect(() => {
+    if (activeIndex >= cleanPhotos.length) {
+      setActiveIndex(0);
+    }
+  }, [activeIndex, cleanPhotos.length]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
+      if (selectedIndex === null) return;
+
       if (event.key === "Escape") {
         setSelectedIndex(null);
       }
 
-      if (event.key === "ArrowRight" && selectedIndex !== null && cleanPhotos.length > 1) {
-        setSelectedIndex((selectedIndex + 1) % cleanPhotos.length);
+      if (event.key === "ArrowRight" && cleanPhotos.length > 1) {
+        setSelectedIndex((current) =>
+          current === null ? current : getWrappedIndex(current + 1, cleanPhotos.length)
+        );
       }
 
-      if (event.key === "ArrowLeft" && selectedIndex !== null && cleanPhotos.length > 1) {
-        setSelectedIndex((selectedIndex - 1 + cleanPhotos.length) % cleanPhotos.length);
+      if (event.key === "ArrowLeft" && cleanPhotos.length > 1) {
+        setSelectedIndex((current) =>
+          current === null ? current : getWrappedIndex(current - 1, cleanPhotos.length)
+        );
       }
     }
 
@@ -40,9 +62,11 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
     );
   }
 
+  const activePhoto = cleanPhotos[activeIndex] || cleanPhotos[0];
   const selectedPhoto = selectedIndex !== null ? cleanPhotos[selectedIndex] : null;
 
   function openPhoto(index: number) {
+    setActiveIndex(index);
     setSelectedIndex(index);
   }
 
@@ -50,14 +74,97 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
     setSelectedIndex(null);
   }
 
-  function showPrevious() {
-    if (selectedIndex === null) return;
-    setSelectedIndex((selectedIndex - 1 + cleanPhotos.length) % cleanPhotos.length);
+  function showPreviousMain() {
+    setActiveIndex((current) => getWrappedIndex(current - 1, cleanPhotos.length));
   }
 
-  function showNext() {
-    if (selectedIndex === null) return;
-    setSelectedIndex((selectedIndex + 1) % cleanPhotos.length);
+  function showNextMain() {
+    setActiveIndex((current) => getWrappedIndex(current + 1, cleanPhotos.length));
+  }
+
+  function showPreviousModal() {
+    setSelectedIndex((current) =>
+      current === null ? current : getWrappedIndex(current - 1, cleanPhotos.length)
+    );
+  }
+
+  function showNextModal() {
+    setSelectedIndex((current) =>
+      current === null ? current : getWrappedIndex(current + 1, cleanPhotos.length)
+    );
+  }
+
+  function handleTouchStart(event: React.TouchEvent) {
+    const touch = event.touches[0];
+
+    if (!touch) return;
+
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY
+    };
+  }
+
+  function getSwipeDelta(event: React.TouchEvent) {
+    const start = touchStartRef.current;
+    const touch = event.changedTouches[0];
+
+    touchStartRef.current = null;
+
+    if (!start || !touch) return null;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD_PX) return null;
+    if (Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return null;
+
+    return deltaX;
+  }
+
+  function markSwipeHandled() {
+    ignoreNextClickRef.current = true;
+
+    window.setTimeout(() => {
+      ignoreNextClickRef.current = false;
+    }, 350);
+  }
+
+  function handleMainTouchEnd(event: React.TouchEvent) {
+    if (cleanPhotos.length <= 1) return;
+
+    const deltaX = getSwipeDelta(event);
+    if (deltaX === null) return;
+
+    markSwipeHandled();
+
+    if (deltaX < 0) {
+      showNextMain();
+    } else {
+      showPreviousMain();
+    }
+  }
+
+  function handleModalTouchEnd(event: React.TouchEvent) {
+    if (cleanPhotos.length <= 1) return;
+
+    const deltaX = getSwipeDelta(event);
+    if (deltaX === null) return;
+
+    if (deltaX < 0) {
+      showNextModal();
+    } else {
+      showPreviousModal();
+    }
+  }
+
+  function handleMainClick() {
+    if (ignoreNextClickRef.current) {
+      ignoreNextClickRef.current = false;
+      return;
+    }
+
+    openPhoto(activeIndex);
   }
 
   return (
@@ -65,10 +172,16 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
       <button
         type="button"
         className="vehicleDetailMedia vehicleMainPhotoButton"
-        onClick={() => openPhoto(0)}
+        onClick={handleMainClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleMainTouchEnd}
         aria-label={`Open larger photo of ${title}`}
       >
-        <img src={cleanPhotos[0]} alt={title} />
+        <img src={activePhoto} alt={title} />
+
+        {cleanPhotos.length > 1 ? (
+          <span className="vehicleSwipeHint">Swipe photos</span>
+        ) : null}
       </button>
 
       {cleanPhotos.length > 1 ? (
@@ -76,7 +189,7 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
           {cleanPhotos.map((photo, index) => (
             <button
               type="button"
-              className="vehicleThumbnail"
+              className={`vehicleThumbnail ${index === activeIndex ? "vehicleThumbnailActive" : ""}`}
               key={`${photo}-${index}`}
               onClick={() => openPhoto(index)}
               aria-label={`Open ${title} photo ${index + 1}`}
@@ -99,13 +212,17 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
               ×
             </button>
 
-            <div className="vehiclePhotoModalImageFrame">
+            <div
+              className="vehiclePhotoModalImageFrame"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleModalTouchEnd}
+            >
               <img src={selectedPhoto} alt={`${title} large view`} />
             </div>
 
             {cleanPhotos.length > 1 ? (
               <div className="vehiclePhotoModalControls">
-                <button type="button" className="buttonGhost" onClick={showPrevious}>
+                <button type="button" className="buttonGhost" onClick={showPreviousModal}>
                   ← Previous
                 </button>
 
@@ -113,7 +230,7 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
                   Photo {selectedIndex! + 1} of {cleanPhotos.length}
                 </span>
 
-                <button type="button" className="buttonGhost" onClick={showNext}>
+                <button type="button" className="buttonGhost" onClick={showNextModal}>
                   Next →
                 </button>
               </div>
