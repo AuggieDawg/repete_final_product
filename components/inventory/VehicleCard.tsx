@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Vehicle } from "@/lib/inventory/types";
@@ -9,6 +10,7 @@ const accentPalette = [
   "#b87333",
   "#f3f0df"
 ];
+
 
 function formatPrice(price: Vehicle["price"]) {
   if (price === null || price === undefined) return "Call";
@@ -57,11 +59,15 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
         {primaryPhoto ? (
           <>
             <div className="inventoryVehicleImageWrap">
-              <img
+              <Image
                 src={primaryPhoto}
                 alt={vehicle.title}
                 className="inventoryVehicleImage"
                 loading="lazy"
+                width={1200}
+                height={900}
+                sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                unoptimized
               />
             </div>
             <div className="inventoryImageOverlay" />
