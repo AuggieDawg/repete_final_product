@@ -6,9 +6,12 @@ import { siteConfig } from "@/lib/site/site";
 import { businessHours } from "@/lib/site/business-hours";
 
 export const metadata: Metadata = {
-  title: "Location & Hours | Repete Auto in Vernal, Utah",
+  title: "Location & Hours",
   description:
-    "Visit Repete Auto at 2295 US-40 in Vernal, Utah. View hours, get directions, call the dealership, or schedule a test drive."
+    "Visit Repete Auto at 2295 US-40 in Vernal, Utah. View hours, get directions, call the dealership, or schedule a test drive.",
+  alternates: {
+    canonical: "/location"
+  }
 };
 
 export default function LocationPage() {

@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { WebManagerFormFrame } from "../../components/webmanager/webmanager-form-frame";
 import { webManagerUrls } from "../../lib/webmanager/urls";
+
+export const metadata: Metadata = {
+  title: "Contact Repete Auto",
+  description:
+    "Contact Repete Auto in Vernal, Utah with questions about vehicles, availability, trade-ins, financing, or visiting the lot.",
+  alternates: {
+    canonical: "/contact"
+  }
+};
+
 
 export default function Page() {
   return (

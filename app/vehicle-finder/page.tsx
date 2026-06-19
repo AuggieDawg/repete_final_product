@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { WebManagerFormFrame } from "../../components/webmanager/webmanager-form-frame";
 import { webManagerUrls } from "../../lib/webmanager/urls";
+
+export const metadata: Metadata = {
+  title: "Vehicle Finder",
+  description:
+    "Tell Repete Auto what kind of used car, truck, or SUV you are searching for in Vernal, Utah.",
+  alternates: {
+    canonical: "/vehicle-finder"
+  }
+};
+
 
 export default function Page() {
   return (

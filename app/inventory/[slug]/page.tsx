@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { VehiclePhotoGallery } from "@/components/inventory/VehiclePhotoGallery";
+import { VehicleJsonLd } from "@/components/seo/VehicleJsonLd";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 import { siteConfig } from "@/lib/site/site";
 
@@ -38,9 +39,34 @@ export async function generateMetadata({
     };
   }
 
+  const description = `View photos, mileage, price, and key details for this ${vehicle.title} at Repete Auto in Vernal, Utah. Call to confirm availability before making the trip.`;
+
   return {
-    title: `${vehicle.title} | Repete Auto`,
-    description: `View photos, mileage, price, and key details for this ${vehicle.title} at Repete Auto in Vernal, Utah. Call to confirm availability and test drive options.`
+    title: `${vehicle.title} | Used Vehicle in Vernal, Utah | Repete Auto`,
+    description,
+    alternates: {
+      canonical: `/inventory/${vehicle.slug}`
+    },
+    openGraph: {
+      title: `${vehicle.title} | Repete Auto`,
+      description,
+      url: `/inventory/${vehicle.slug}`,
+      type: "website",
+      images: vehicle.photos[0]
+        ? [
+            {
+              url: vehicle.photos[0],
+              alt: vehicle.title
+            }
+          ]
+        : undefined
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${vehicle.title} | Repete Auto`,
+      description,
+      images: vehicle.photos[0] ? [vehicle.photos[0]] : undefined
+    }
   };
 }
 
@@ -60,6 +86,7 @@ export default async function VehicleDetailPage({
   return (
     <main>
       <SiteNav />
+      <VehicleJsonLd vehicle={vehicle} />
 
       <Link
         className="floatingBackToInventory"

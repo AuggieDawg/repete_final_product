@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WebManagerFormFrame } from "@/components/webmanager/webmanager-form-frame";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
+
+export const metadata: Metadata = {
+  title: "Start Credit Application",
+  robots: {
+    index: false,
+    follow: false
+  }
+};
+
 import {
   getCreditApplicationCopy,
   getCreditApplicationFrameUrl

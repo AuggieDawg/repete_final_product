@@ -6,9 +6,12 @@ import { VehicleCard } from "@/components/inventory/VehicleCard";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 
 export const metadata: Metadata = {
-  title: "Used Cars, Trucks & SUVs | Repete Auto in Vernal, Utah",
+  title: "Used Cars, Trucks & SUVs in Vernal, Utah",
   description:
-    "Browse Repete Auto's current used cars, trucks, SUVs, and work-ready vehicles in Vernal, Utah. Call to confirm availability, price, and test drive options."
+    "Browse Repete Auto's current used cars, trucks, SUVs, and work-ready vehicles in Vernal, Utah. Call to confirm availability before making the trip.",
+  alternates: {
+    canonical: "/inventory"
+  }
 };
 
 function getSearchValue(searchParams: Record<string, string | string[] | undefined>, key: string) {

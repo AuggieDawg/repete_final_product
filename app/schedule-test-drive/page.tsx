@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { WebManagerFormFrame } from "../../components/webmanager/webmanager-form-frame";
 import { webManagerUrls } from "../../lib/webmanager/urls";
+
+export const metadata: Metadata = {
+  title: "Schedule a Test Drive",
+  description:
+    "Schedule a test drive with Repete Auto in Vernal, Utah. Call ahead to confirm vehicle availability before making the trip.",
+  alternates: {
+    canonical: "/schedule-test-drive"
+  }
+};
+
 
 export default function Page() {
   return (

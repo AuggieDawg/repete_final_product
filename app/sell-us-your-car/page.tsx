@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { WebManagerFormFrame } from "../../components/webmanager/webmanager-form-frame";
 import { webManagerUrls } from "../../lib/webmanager/urls";
+
+export const metadata: Metadata = {
+  title: "Sell or Trade Your Vehicle",
+  description:
+    "Sell or trade your vehicle with Repete Auto in Vernal, Utah. Send vehicle details so the dealership can review the opportunity.",
+  alternates: {
+    canonical: "/sell-us-your-car"
+  }
+};
+
 
 export default function Page() {
   return (

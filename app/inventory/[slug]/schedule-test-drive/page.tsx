@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WebManagerFormFrame } from "@/components/webmanager/webmanager-form-frame";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 import { webManagerUrls } from "@/lib/webmanager/urls";
+
+export const metadata: Metadata = {
+  title: "Schedule a Test Drive",
+  robots: {
+    index: false,
+    follow: false
+  }
+};
+
 
 export default async function VehicleScheduleTestDrivePage({
   params
