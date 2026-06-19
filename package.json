@@ -13,6 +13,7 @@
     "inventory:parse-fixture": "tsx scripts/parse-inventory-fixture.ts"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "fast-xml-parser": "^5.8.0",
     "lucide-react": "latest",
     "next": "latest",
