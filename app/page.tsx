@@ -100,7 +100,7 @@ export default async function Home() {
 
             <div className="heroFacts" aria-label="Dealership highlights">
               <div>
-                <strong>{siteConfig.phoneDisplay}</strong>
+                <strong>435-789-AUTO</strong>
                 <span>Main phone</span>
               </div>
               <div>

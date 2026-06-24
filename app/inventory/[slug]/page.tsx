@@ -101,6 +101,12 @@ export default async function VehicleDetailPage({
         <div>
           <p className="eyebrow">{vehicle.stockNumber ? `Stock #${vehicle.stockNumber}` : "Repete Auto Inventory"}</p>
           <h1>{vehicle.title}</h1>
+
+          <div className="vehicleHeroPriceBlock" aria-label="Vehicle price">
+            <span>Price</span>
+            <strong>{formatPrice(vehicle.price)}</strong>
+          </div>
+
           <p>
             {vehicle.description ||
               "Review photos, mileage, price, and key details. Call Repete Auto to confirm availability before making the trip."}
