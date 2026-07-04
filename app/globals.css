@@ -668,7 +668,26 @@ img {
 .filterRow {
   display: flex;
   flex-wrap: wrap;
+  align-items: end;
   gap: 0.8rem;
+}
+
+.filterRow label {
+  flex: 1 1 210px;
+}
+
+.filterRow label:first-child {
+  flex-basis: 320px;
+}
+
+.filterRow .buttonPrimary,
+.filterRow .buttonGhost {
+  flex: 0 0 auto;
+}
+
+.filterRow select option {
+  background: var(--black-2);
+  color: var(--text);
 }
 
 .filterChip {
