@@ -32,6 +32,8 @@ export default async function VehicleScheduleTestDrivePage({
       iframeHeight={1750}
       floatingBackHref={`/inventory/${vehicle.slug}`}
       floatingBackLabel="Back to Vehicle"
+      formIntent="schedule_test_drive"
+      formContext="vehicle"
       actions={[
         { label: "Back to Vehicle", href: `/inventory/${vehicle.slug}`, variant: "primary" },
         { label: "View Inventory", href: "/inventory", variant: "ghost" }
