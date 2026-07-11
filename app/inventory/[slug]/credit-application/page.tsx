@@ -37,6 +37,8 @@ export default async function CreditApplicationPage({
       iframeHeight={2150}
       floatingBackHref={`/inventory/${vehicle.slug}`}
       floatingBackLabel="Back to Vehicle"
+      formIntent="credit_application"
+      formContext="vehicle"
       actions={[
         { label: "Back to Vehicle", href: `/inventory/${vehicle.slug}`, variant: "primary" },
         { label: "View Inventory", href: "/inventory", variant: "ghost" }

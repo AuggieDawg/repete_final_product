@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { SiteNav } from "@/components/site/SiteNav";
+import {
+  TrackedWebManagerIframe,
+  type LeadFormContext,
+  type LeadFormIntent
+} from "@/components/analytics/WebManagerFormAnalytics";
 import { siteConfig } from "@/lib/site/site";
 
 type FormAction = {
@@ -17,6 +22,8 @@ type WebManagerFormFrameProps = {
   actions?: FormAction[];
   floatingBackHref?: string;
   floatingBackLabel?: string;
+  formIntent?: LeadFormIntent;
+  formContext?: LeadFormContext;
 };
 
 export function WebManagerFormFrame({
@@ -28,6 +35,8 @@ export function WebManagerFormFrame({
   actions = [],
   floatingBackHref,
   floatingBackLabel = "Back",
+  formIntent,
+  formContext = "general"
 }: WebManagerFormFrameProps) {
   return (
     <main className="webmanagerPage">
@@ -79,12 +88,13 @@ export function WebManagerFormFrame({
       <section className="webmanagerFormSection" id="form">
         <div className="webmanagerFormShell">
           <div className="webmanagerFormPanel">
-            <iframe
+            <TrackedWebManagerIframe
               title={title}
               src={src}
               className="webmanagerFrame"
-              style={{ height: iframeHeight }}
-              loading="lazy"
+              iframeHeight={iframeHeight}
+              intent={formIntent}
+              context={formContext}
             />
           </div>
         </div>

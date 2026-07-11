@@ -19,6 +19,7 @@ export default function Page() {
       description="Have a question about a vehicle, availability, trade-ins, financing, or visiting the lot? Send Repete Auto a message and the team will follow up."
       src={webManagerUrls.contact}
       iframeHeight={1650}
+      formIntent="contact"
       actions={[
         { label: "View Inventory", href: "/inventory", variant: "primary" },
         { label: "Location", href: "/location", variant: "ghost" },
