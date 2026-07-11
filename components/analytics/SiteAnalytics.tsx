@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import Script from "next/script";
 import { useEffect } from "react";
 
@@ -11,90 +12,201 @@ declare global {
 }
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const MAX_PARAM_LENGTH = 120;
+
+type AnalyticsParamValue = string | number | boolean;
+type AnalyticsParams = Record<string, AnalyticsParamValue>;
 
 type AnalyticsEvent = {
   name: string;
-  params?: Record<string, string | number | boolean>;
+  gaParams?: AnalyticsParams;
+  vercelParams?: AnalyticsParams;
 };
 
-function sendGaEvent({ name, params = {} }: AnalyticsEvent) {
-  if (!GA_MEASUREMENT_ID || typeof window === "undefined" || !window.gtag) {
-    return;
-  }
+function cleanParam(value: string) {
+  const cleaned = value.replace(/\s+/g, " ").trim();
 
-  window.gtag("event", name, params);
+  if (!cleaned) return "unknown";
+
+  return cleaned.slice(0, MAX_PARAM_LENGTH);
+}
+
+function getInternalPath(href: string) {
+  try {
+    const parsed = new URL(href, window.location.origin);
+
+    if (parsed.origin !== window.location.origin) return "";
+
+    return parsed.pathname || "/";
+  } catch {
+    if (href.startsWith("/")) return href.split("?")[0] || "/";
+
+    return "";
+  }
+}
+
+function getSafeDestination(href: string) {
+  if (href.startsWith("tel:")) return "phone";
+  if (href.startsWith("mailto:")) return "email";
+
+  try {
+    const parsed = new URL(href, window.location.origin);
+
+    if (parsed.href.includes("maps.google") || parsed.href.includes("google.com/maps")) {
+      return "google_maps";
+    }
+
+    if (parsed.origin === window.location.origin) {
+      return parsed.pathname || "/";
+    }
+
+    return parsed.hostname.replace(/^www\./, "") || "external";
+  } catch {
+    return href.split("?")[0] || "unknown";
+  }
+}
+
+function getPlacement(element: Element) {
+  if (element.closest("header")) return "header";
+  if (element.closest("footer")) return "footer";
+
+  const section = element.closest("section");
+  const sectionId = section?.getAttribute("id");
+
+  if (sectionId) return sectionId;
+
+  const sectionClass = section?.getAttribute("class") || "";
+
+  if (sectionClass.includes("vehicleConversion")) return "vehicle_conversion";
+  if (sectionClass.includes("vehicleDetail")) return "vehicle_detail";
+  if (sectionClass.includes("webmanagerHero")) return "lead_form_hero";
+  if (sectionClass.includes("webmanagerForm")) return "lead_form";
+  if (sectionClass.includes("inventory")) return "inventory";
+  if (sectionClass.includes("contact")) return "contact";
+  if (sectionClass.includes("hero")) return "hero";
+
+  return "body";
+}
+
+function buildEvent(
+  name: string,
+  element: Element,
+  gaParams: AnalyticsParams = {},
+  vercelParams: AnalyticsParams = {}
+): AnalyticsEvent {
+  const placement = cleanParam(getPlacement(element));
+
+  return {
+    name,
+    gaParams: {
+      placement,
+      ...gaParams
+    },
+    vercelParams: {
+      placement,
+      ...vercelParams
+    }
+  };
 }
 
 function getClickEvent(anchor: HTMLAnchorElement): AnalyticsEvent | null {
   const href = anchor.getAttribute("href") || "";
-  const label = anchor.textContent?.replace(/\s+/g, " ").trim() || "unlabeled";
 
   if (!href) return null;
 
+  const label = cleanParam(anchor.textContent || "unlabeled");
+  const destination = cleanParam(getSafeDestination(href));
+  const path = getInternalPath(href);
+  const isMapsLink = href.includes("maps.google") || href.includes("google.com/maps");
+  const gaParams = {
+    label,
+    destination
+  };
+
   if (href.startsWith("tel:")) {
-    return {
-      name: "call_click",
-      params: { label, href }
-    };
+    return buildEvent("call_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("maps.google") || href.includes("google.com/maps")) {
-    return {
-      name: "directions_click",
-      params: { label, href }
-    };
+  if (href.startsWith("mailto:")) {
+    return buildEvent("email_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("/credit-application")) {
-    return {
-      name: "credit_application_click",
-      params: { label, href }
-    };
+  if (isMapsLink) {
+    return buildEvent("directions_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("/schedule-test-drive")) {
-    return {
-      name: "schedule_test_drive_click",
-      params: { label, href }
-    };
+  if (path.includes("/credit-application")) {
+    return buildEvent("credit_application_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("/vehicle-finder")) {
-    return {
-      name: "vehicle_finder_click",
-      params: { label, href }
-    };
+  if (path.includes("/schedule-test-drive")) {
+    return buildEvent("schedule_test_drive_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("/sell-us-your-car")) {
-    return {
-      name: "sell_or_trade_click",
-      params: { label, href }
-    };
+  if (path.includes("/vehicle-finder")) {
+    return buildEvent("vehicle_finder_click", anchor, gaParams, { destination });
   }
 
-  if (href.includes("/contact")) {
-    return {
-      name: "contact_click",
-      params: { label, href }
-    };
+  if (path.includes("/sell-us-your-car")) {
+    return buildEvent("sell_or_trade_click", anchor, gaParams, { destination });
   }
 
-  if (href === "/inventory" || href.includes("/inventory?")) {
-    return {
-      name: "inventory_click",
-      params: { label, href }
-    };
+  if (path.includes("/contact")) {
+    return buildEvent("contact_click", anchor, gaParams, { destination });
   }
 
-  if (href.startsWith("/inventory/")) {
-    return {
-      name: "vehicle_detail_click",
-      params: { label, href }
-    };
+  if (path === "/inventory") {
+    return buildEvent("inventory_click", anchor, gaParams, { destination });
+  }
+
+  if (path.startsWith("/inventory/")) {
+    return buildEvent("vehicle_detail_click", anchor, gaParams, { destination });
   }
 
   return null;
+}
+
+function getSubmitEvent(form: HTMLFormElement): AnalyticsEvent | null {
+  const action = form.getAttribute("action") || "";
+  const path = getInternalPath(action);
+
+  if (path !== "/inventory") return null;
+
+  const formData = new FormData(form);
+  const filters = [
+    String(formData.get("q") || "").trim() ? "query" : "",
+    String(formData.get("make") || "").trim() ? "make" : "",
+    String(formData.get("price") || "").trim() ? "price" : ""
+  ].filter(Boolean);
+  const filterSet = filters.join("+") || "none";
+
+  return buildEvent(
+    "inventory_search_submit",
+    form,
+    { filters: filterSet },
+    { filters: filterSet }
+  );
+}
+
+function sendGaEvent({ name, gaParams = {} }: AnalyticsEvent) {
+  if (!GA_MEASUREMENT_ID || typeof window === "undefined" || !window.gtag) {
+    return;
+  }
+
+  window.gtag("event", name, gaParams);
+}
+
+function sendVercelEvent({ name, vercelParams = {} }: AnalyticsEvent) {
+  try {
+    track(name, vercelParams);
+  } catch {
+    // Keep analytics failures from affecting clicks, forms, or navigation.
+  }
+}
+
+function sendAnalyticsEvent(event: AnalyticsEvent) {
+  sendGaEvent(event);
+  sendVercelEvent(event);
 }
 
 export function SiteAnalytics() {
@@ -112,11 +224,28 @@ export function SiteAnalytics() {
 
       if (!analyticsEvent) return;
 
-      sendGaEvent(analyticsEvent);
+      sendAnalyticsEvent(analyticsEvent);
+    }
+
+    function handleSubmit(event: SubmitEvent) {
+      const target = event.target;
+
+      if (!(target instanceof HTMLFormElement)) return;
+
+      const analyticsEvent = getSubmitEvent(target);
+
+      if (!analyticsEvent) return;
+
+      sendAnalyticsEvent(analyticsEvent);
     }
 
     document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    document.addEventListener("submit", handleSubmit);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("submit", handleSubmit);
+    };
   }, []);
 
   if (!GA_MEASUREMENT_ID) {
