@@ -19,6 +19,7 @@ export default function Page() {
       description="Request a time to see a vehicle in person. If you are driving from outside Vernal, call first to confirm availability before making the trip."
       src={webManagerUrls.scheduleTestDrive}
       iframeHeight={1750}
+      formIntent="schedule_test_drive"
       actions={[
         { label: "View Inventory", href: "/inventory", variant: "primary" },
         { label: "Location", href: "/location", variant: "ghost" },
