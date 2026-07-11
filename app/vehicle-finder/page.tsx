@@ -19,6 +19,7 @@ export default function Page() {
       description="Looking for something specific? Tell Repete Auto what you are searching for, including budget, body style, drivetrain, mileage range, and must-have features."
       src={webManagerUrls.vehicleFinder}
       iframeHeight={1850}
+      formIntent="vehicle_finder"
       actions={[
         { label: "Browse Inventory", href: "/inventory", variant: "primary" },
         { label: "Schedule Test Drive", href: "/schedule-test-drive", variant: "ghost" },
