@@ -3,6 +3,7 @@
 import { track } from "@vercel/analytics";
 import Script from "next/script";
 import { useEffect } from "react";
+import { getDirectContactClick } from "@/lib/analytics/direct-contact-click";
 
 declare global {
   interface Window {
@@ -47,6 +48,7 @@ function getInternalPath(href: string) {
 
 function getSafeDestination(href: string) {
   if (href.startsWith("tel:")) return "phone";
+  if (href.startsWith("sms:")) return "sms";
   if (href.startsWith("mailto:")) return "email";
 
   try {
@@ -114,6 +116,14 @@ function getClickEvent(anchor: HTMLAnchorElement): AnalyticsEvent | null {
 
   if (!href) return null;
 
+  const directContactClick = getDirectContactClick(href);
+
+  if (directContactClick) {
+    const { name, destination } = directContactClick;
+
+    return buildEvent(name, anchor, { destination }, { destination });
+  }
+
   const label = cleanParam(anchor.textContent || "unlabeled");
   const destination = cleanParam(getSafeDestination(href));
   const path = getInternalPath(href);
@@ -122,14 +132,6 @@ function getClickEvent(anchor: HTMLAnchorElement): AnalyticsEvent | null {
     label,
     destination
   };
-
-  if (href.startsWith("tel:")) {
-    return buildEvent("call_click", anchor, gaParams, { destination });
-  }
-
-  if (href.startsWith("mailto:")) {
-    return buildEvent("email_click", anchor, gaParams, { destination });
-  }
 
   if (isMapsLink) {
     return buildEvent("directions_click", anchor, gaParams, { destination });

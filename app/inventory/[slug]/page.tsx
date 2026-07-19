@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { VehiclePhotoGallery } from "@/components/inventory/VehiclePhotoGallery";
 import { VehicleJsonLd } from "@/components/seo/VehicleJsonLd";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
-import { siteConfig } from "@/lib/site/site";
+import { buildTextHref, siteConfig } from "@/lib/site/site";
 
 function formatPrice(price: number | null | undefined) {
   if (price === null || price === undefined) return "Call for price";
@@ -22,6 +22,12 @@ function formatMileage(mileage?: number) {
   if (!mileage) return "Call for mileage";
 
   return `${new Intl.NumberFormat("en-US").format(mileage)} miles`;
+}
+
+function formatMpg(mpg: number) {
+  return `${new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 1
+  }).format(mpg)} MPG`;
 }
 
 export async function generateMetadata({
@@ -83,6 +89,12 @@ export default async function VehicleDetailPage({
     notFound();
   }
 
+  const vehicleTextHref = buildTextHref(
+    `Hi Repete Auto, I'm interested in the ${vehicle.title}${
+      vehicle.stockNumber ? ` (stock #${vehicle.stockNumber})` : ""
+    }. Is it still available?`
+  );
+
   return (
     <main>
       <SiteNav />
@@ -117,6 +129,10 @@ export default async function VehicleDetailPage({
               Call About This Vehicle
             </a>
 
+            <a className="buttonGhost" href={vehicleTextHref}>
+              Text About This Vehicle
+            </a>
+
             <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/credit-application`}>
               Start Credit Application
             </Link>
@@ -149,6 +165,10 @@ export default async function VehicleDetailPage({
                 Call {siteConfig.phoneDisplay}
               </a>
 
+              <a className="buttonGhost" href={vehicleTextHref}>
+                Text {siteConfig.textDisplay}
+              </a>
+
               <Link className="buttonGhost" href={`/inventory/${vehicle.slug}/credit-application`}>
                 Start Credit Application
               </Link>
@@ -174,6 +194,10 @@ export default async function VehicleDetailPage({
             <div><dt>Engine</dt><dd>{vehicle.engine || "Call for details"}</dd></div>
             <div><dt>Transmission</dt><dd>{vehicle.transmission || "Call for details"}</dd></div>
             <div><dt>Drivetrain</dt><dd>{vehicle.drivetrain || "Call for details"}</dd></div>
+            {vehicle.fuelType ? <div><dt>Fuel</dt><dd>{vehicle.fuelType}</dd></div> : null}
+            {vehicle.cityMpg !== undefined ? <div><dt>City</dt><dd>{formatMpg(vehicle.cityMpg)}</dd></div> : null}
+            {vehicle.highwayMpg !== undefined ? <div><dt>Highway</dt><dd>{formatMpg(vehicle.highwayMpg)}</dd></div> : null}
+            {vehicle.combinedMpg !== undefined ? <div><dt>Combined</dt><dd>{formatMpg(vehicle.combinedMpg)}</dd></div> : null}
             <div><dt>Exterior</dt><dd>{vehicle.exteriorColor || "Call for details"}</dd></div>
             <div><dt>Interior</dt><dd>{vehicle.interiorColor || "Call for details"}</dd></div>
           </dl>

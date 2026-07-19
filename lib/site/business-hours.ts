@@ -18,6 +18,10 @@ export type BusinessDay = {
 export const DEALER_TIME_ZONE =
   process.env.DEALER_TIME_ZONE || "America/Denver";
 
+export const INVENTORY_OPEN_TTL_SECONDS = 30 * 60;
+export const INVENTORY_AFTER_HOURS_TTL_SECONDS = 6 * 60 * 60;
+export const INVENTORY_SUNDAY_TTL_SECONDS = 12 * 60 * 60;
+
 export const businessHours: BusinessDay[] = [
   { day: "Monday", key: "monday", open: "09:00", close: "18:00", label: "9:00 AM - 6:00 PM" },
   { day: "Tuesday", key: "tuesday", open: "09:00", close: "18:00", label: "9:00 AM - 6:00 PM" },
@@ -92,22 +96,22 @@ export function getInventoryCachePolicy(date = new Date()) {
   if (open) {
     return {
       mode: "business-hours",
-      ttlSeconds: 60 * 60,
-      label: "Refresh target: every 60 minutes while Repete Auto is open."
+      ttlSeconds: INVENTORY_OPEN_TTL_SECONDS,
+      label: "Refresh target: every 30 minutes while Repete Auto is open."
     };
   }
 
   if (today.key === "sunday") {
     return {
       mode: "closed-sunday",
-      ttlSeconds: 12 * 60 * 60,
+      ttlSeconds: INVENTORY_SUNDAY_TTL_SECONDS,
       label: "Refresh target: every 12 hours on Sunday."
     };
   }
 
   return {
     mode: "after-hours",
-    ttlSeconds: 6 * 60 * 60,
+    ttlSeconds: INVENTORY_AFTER_HOURS_TTL_SECONDS,
     label: "Refresh target: every 6 hours after business hours."
   };
 }

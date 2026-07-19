@@ -25,6 +25,7 @@ Track page views for:
 The site is prepared to track:
 
 - `call_click`
+- `sms_click`
 - `directions_click`
 - `inventory_click`
 - `vehicle_detail_click`
@@ -33,6 +34,9 @@ The site is prepared to track:
 - `vehicle_finder_click`
 - `sell_or_trade_click`
 - `contact_click`
+- `lead_form_view`
+- `lead_form_loaded`
+- `generate_lead` (after a successful WebManager redirect)
 
 ## Business Questions
 
@@ -46,6 +50,19 @@ Use analytics to answer:
 - Are customers using Vehicle Finder?
 - Are customers clicking directions?
 - Which pages should be improved first?
+
+## Staging Event Test
+
+1. Open the staging deployment with the browser console and Vercel Analytics events visible.
+2. Click each call-to-action once and confirm its placement and safe destination.
+3. Confirm the home-page and vehicle-detail text buttons create `sms_click` without a phone number or message in the event payload.
+4. Open a WebManager form and confirm one `lead_form_view` and one `lead_form_loaded` event.
+5. Confirm with AutoManager that the redirect happens only after WebManager accepts a lead, then point Schedule Test Drive to `/thank-you/schedule-test-drive`.
+6. Start on the Schedule Test Drive form and complete a test. Confirm the thank-you page creates one `generate_lead` event for that form attempt, with `intent=schedule_test_drive` and `source=webmanager_redirect`.
+7. Open the thank-you URL directly and confirm it does not create `generate_lead` without a form-attempt marker.
+8. Confirm the same event names in GA4 DebugView when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is configured.
+
+Do not include names, email addresses, phone numbers, VINs, or free-text form content in analytics events.
 
 ## Launch Notes
 
