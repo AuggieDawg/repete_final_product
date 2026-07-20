@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Denver
+    open-pull-requests-limit: 5
+    groups:
+      next-runtime:
+        patterns:
+          - next
+          - react
+          - react-dom
+      vercel-observability:
+        patterns:
+          - "@vercel/analytics"
+          - "@vercel/speed-insights"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
