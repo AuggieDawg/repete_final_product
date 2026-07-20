@@ -5,11 +5,17 @@ on:
     branches:
       - main
       - staging
+      - "agent/**"
+      - "chore/**"
       - "feature/**"
   pull_request:
     branches:
       - main
       - staging
+
+concurrency:
+  group: repete-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint-and-build:
@@ -36,6 +42,9 @@ jobs:
 
       - name: Run lint
         run: npm run lint
+
+      - name: Run tests
+        run: npm test
 
       - name: Run production build
         run: npm run build

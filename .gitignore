@@ -22,3 +22,8 @@ data/fixtures/*.normalized.json
 # Deployment/local environment files
 .env.*.local
 .client-private/
+
+# Editor and manual backup artifacts belong outside the repository
+*.bak.*
+*.orig
+*.rej
