@@ -92,6 +92,19 @@ function parseMoney(value: unknown): number | null | undefined {
   return Number.isFinite(parsed) ? Math.round(parsed) : undefined;
 }
 
+function parseMpg(value: unknown): number | undefined {
+  const text = cleanText(value)?.replace(/,/g, "");
+  const match = text?.match(/-?\d+(?:\.\d+)?/);
+
+  if (!match) return undefined;
+
+  const parsed = Number.parseFloat(match[0]);
+
+  return Number.isFinite(parsed) && parsed > 0 && parsed <= 300
+    ? parsed
+    : undefined;
+}
+
 function slugify(value: string): string {
   return value
     .toLowerCase()
@@ -356,6 +369,39 @@ function normalizeVehicle(node: unknown, index: number): Vehicle | null {
   const transmission = cleanText(getDeepValue(node, ["Transmission"]));
   const drivetrain = cleanText(getDeepValue(node, ["Drivetrain", "DriveTrain", "Drive"]));
   const fuelType = cleanText(getDeepValue(node, ["FuelType", "Fuel"]));
+  const cityMpg = parseMpg(
+    getDeepValue(node, [
+      "CityMPG",
+      "MPGCity",
+      "EPACityMPG",
+      "CityFuelEconomy",
+      "FuelEconomyCity",
+      "CityMilesPerGallon"
+    ])
+  );
+  const highwayMpg = parseMpg(
+    getDeepValue(node, [
+      "HighwayMPG",
+      "HwyMPG",
+      "MPGHighway",
+      "MPGHwy",
+      "EPAHighwayMPG",
+      "EPAHwyMPG",
+      "HighwayFuelEconomy",
+      "FuelEconomyHighway",
+      "HighwayMilesPerGallon"
+    ])
+  );
+  const combinedMpg = parseMpg(
+    getDeepValue(node, [
+      "CombinedMPG",
+      "MPGCombined",
+      "EPACombinedMPG",
+      "CombinedFuelEconomy",
+      "FuelEconomyCombined",
+      "CombinedMilesPerGallon"
+    ])
+  );
   const description = cleanText(getDeepValue(node, ["Description", "Comments", "VehicleDescription"]));
   const features = collectFeatures(node);
   const photos = collectPhotoUrls(node);
@@ -389,6 +435,9 @@ function normalizeVehicle(node: unknown, index: number): Vehicle | null {
     transmission,
     drivetrain,
     fuelType,
+    cityMpg,
+    highwayMpg,
+    combinedMpg,
     description,
     features,
     photos,

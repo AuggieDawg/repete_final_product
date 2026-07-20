@@ -19,6 +19,9 @@ export type Vehicle = {
   transmission?: string;
   drivetrain?: string;
   fuelType?: string;
+  cityMpg?: number;
+  highwayMpg?: number;
+  combinedMpg?: number;
   description?: string;
   features: string[];
   photos: string[];

@@ -2,6 +2,7 @@
 
 import { track } from "@vercel/analytics";
 import { useEffect, useRef } from "react";
+import { markLeadAttempt } from "@/lib/analytics/lead-attempt";
 
 export type LeadFormIntent =
   | "contact"
@@ -49,6 +50,18 @@ export function TrackedWebManagerIframe({
   useEffect(() => {
     if (!intent) return;
 
+    if (intent === "schedule_test_drive") {
+      try {
+        const attemptId = typeof window.crypto.randomUUID === "function"
+          ? window.crypto.randomUUID()
+          : `${Date.now()}-${Math.random()}`;
+
+        markLeadAttempt(window.sessionStorage, intent, attemptId);
+      } catch {
+        // The form still works if browser storage is unavailable.
+      }
+    }
+
     trackLeadFormEvent("lead_form_view", intent, context);
   }, [intent, context]);
 
@@ -58,7 +71,7 @@ export function TrackedWebManagerIframe({
       src={src}
       className={className}
       style={{ height: iframeHeight }}
-      loading="lazy"
+      loading="eager"
       onLoad={() => {
         if (!intent || hasTrackedLoad.current) return;
 

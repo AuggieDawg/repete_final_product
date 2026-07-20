@@ -133,6 +133,10 @@ export default async function Home() {
                 Call {siteConfig.phoneDisplay}
               </a>
 
+              <a className="buttonGhost fullWidth" href={siteConfig.textHref}>
+                Text Us Anytime · {siteConfig.textDisplay}
+              </a>
+
               <Link className="buttonGhost fullWidth" href="/schedule-test-drive">
                 Schedule Test Drive
               </Link>
