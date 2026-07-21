@@ -3,6 +3,7 @@ import {
   getInventoryCachePolicy,
   INVENTORY_AFTER_HOURS_TTL_SECONDS,
   INVENTORY_OPEN_TTL_SECONDS,
+  INVENTORY_PREVIEW_TTL_SECONDS,
   INVENTORY_SUNDAY_TTL_SECONDS,
   isDealerOpen
 } from "../business-hours";
@@ -29,6 +30,27 @@ function expectPolicy(
 }
 
 describe("Repete business hours", () => {
+  it("freezes preview inventory for 24 hours", () => {
+    const policy = getInventoryCachePolicy(
+      new Date("2026-07-10T15:00:00.000Z"),
+      "preview"
+    );
+
+    expect(policy.mode).toBe("preview-daily");
+    expect(policy.ttlSeconds).toBe(INVENTORY_PREVIEW_TTL_SECONDS);
+    expect(policy.label).toContain("24 hours");
+  });
+
+  it("keeps the normal cache policy in production", () => {
+    const policy = getInventoryCachePolicy(
+      new Date("2026-07-10T15:00:00.000Z"),
+      "production"
+    );
+
+    expect(policy.mode).toBe("business-hours");
+    expect(policy.ttlSeconds).toBe(INVENTORY_OPEN_TTL_SECONDS);
+  });
+
   it("uses the faster cache throughout Friday business hours", () => {
     expectPolicy("2026-05-22T15:00:00.000Z", "business-hours", INVENTORY_OPEN_TTL_SECONDS, true);
     expectPolicy("2026-05-22T23:59:00.000Z", "business-hours", INVENTORY_OPEN_TTL_SECONDS, true);

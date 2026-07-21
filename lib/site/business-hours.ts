@@ -21,6 +21,7 @@ export const DEALER_TIME_ZONE =
 export const INVENTORY_OPEN_TTL_SECONDS = 30 * 60;
 export const INVENTORY_AFTER_HOURS_TTL_SECONDS = 6 * 60 * 60;
 export const INVENTORY_SUNDAY_TTL_SECONDS = 12 * 60 * 60;
+export const INVENTORY_PREVIEW_TTL_SECONDS = 24 * 60 * 60;
 
 export const businessHours: BusinessDay[] = [
   { day: "Monday", key: "monday", open: "09:00", close: "18:00", label: "9:00 AM - 6:00 PM" },
@@ -89,7 +90,18 @@ export function isDealerOpen(date = new Date()): boolean {
   );
 }
 
-export function getInventoryCachePolicy(date = new Date()) {
+export function getInventoryCachePolicy(
+  date = new Date(),
+  vercelEnvironment = process.env.VERCEL_ENV
+) {
+  if (vercelEnvironment === "preview") {
+    return {
+      mode: "preview-daily",
+      ttlSeconds: INVENTORY_PREVIEW_TTL_SECONDS,
+      label: "Preview refresh target: once every 24 hours."
+    };
+  }
+
   const today = getTodayBusinessHours(date);
   const open = isDealerOpen(date);
 
