@@ -26,6 +26,8 @@ export function SiteFooter() {
           <Link href="/sell-us-your-car">Sell or Trade</Link>
           <Link href="/contact">Contact Us</Link>
           <Link href="/location">Location</Link>
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/accessibility">Accessibility</Link>
           <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
         </div>
       </div>

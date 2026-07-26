@@ -65,14 +65,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const analyticsEnabled =
+    process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
+
   return (
     <html lang="en">
       <body>
         <LocalBusinessJsonLd />
         {children}
-        <SiteAnalytics />
-        <Analytics />
-        <SpeedInsights />
+        {analyticsEnabled ? (
+          <>
+            <SiteAnalytics />
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );

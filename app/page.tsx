@@ -2,11 +2,12 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
-  CarFront,
+  CircleDollarSign,
+  ExternalLink,
   MapPin,
   Phone,
-  ShieldCheck,
-  Sparkles
+  PhoneCall,
+  ReceiptText
 } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -16,24 +17,30 @@ import { siteConfig } from "@/lib/site/site";
 
 const trustItems = [
   {
-    title: "Built for Local Roads",
-    text: "Shop used cars, trucks, SUVs, and work-ready vehicles selected for Vernal drivers, Uintah Basin roads, and everyday needs.",
-    icon: Sparkles
+    metric: "$0",
+    title: "Dealer Documentation Fee",
+    text: "Repete Auto does not add a separate dealer documentation fee. Taxes, title, registration, lender fees, and government fees may still apply.",
+    icon: CircleDollarSign
   },
   {
-    title: "Current Vehicle Details",
-    text: "Browse pricing, mileage, photos, stock numbers, and key details before calling or visiting the lot.",
-    icon: CarFront
+    metric: "VIN + Price",
+    title: "Details Before You Visit",
+    text: "Current listings show the price, mileage, stock number, VIN, photos, and vehicle details available from the dealership inventory feed.",
+    icon: ReceiptText
   },
   {
-    title: "Simple Next Steps",
-    text: "View inventory, schedule a test drive, ask about a vehicle, or contact the dealership without digging through a cluttered site.",
-    icon: BadgeCheck
+    metric: "A / 90",
+    title: "Independent Transparency Result",
+    text: "CarEdge currently reports an A / 90 transparency score based on two verified out-the-door quotes. This is limited early data and may change.",
+    icon: BadgeCheck,
+    href: "https://caredge.com/dealer/repete-auto--ut-vernal",
+    linkLabel: "See the independent result"
   },
   {
-    title: "Sell or Trade",
-    text: "Have a vehicle to sell or trade? Send Repete Auto the details and the team can review the opportunity.",
-    icon: ShieldCheck
+    metric: "Local",
+    title: "Direct Contact in Vernal",
+    text: "Call the dealership, text the team, or visit the lot at 2295 US-40. Call ahead to confirm vehicle availability before making the trip.",
+    icon: PhoneCall
   }
 ];
 
@@ -172,26 +179,46 @@ export default async function Home() {
       </section>
 
       <section className="whySection" id="why">
-        <div className="sectionHeader">
+        <div className="shell sectionHeaderBlock trustHeader">
           <div>
-            <p className="eyebrow">Why Shop Here</p>
-            <h2>A simpler way to find your next vehicle.</h2>
+            <p className="eyebrow">Proof Before the Test Drive</p>
+            <h2>Clear details. Fewer surprises.</h2>
+            <p className="trustIntro">
+              These are specific facts you can check before you make the drive.
+            </p>
           </div>
         </div>
 
-        <div className="whyGrid">
+        <div className="shell whyGrid">
           {trustItems.map((item) => {
             const Icon = item.icon;
 
             return (
               <article className="whyCard" key={item.title}>
-                <Icon size={24} />
+                <div className="trustCardTop">
+                  <Icon size={24} aria-hidden="true" />
+                  <strong>{item.metric}</strong>
+                </div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
+                {item.href ? (
+                  <a
+                    className="trustSourceLink"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {item.linkLabel} <ExternalLink size={15} aria-hidden="true" />
+                  </a>
+                ) : null}
               </article>
             );
           })}
         </div>
+        <p className="shell trustSourceNote">
+          Independent score provided by CarEdge; Repete Auto does not control the
+          grade and is not presented here as CarEdge Certified.
+        </p>
       </section>
 
       <section className="finderSection">

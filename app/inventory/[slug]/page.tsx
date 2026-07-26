@@ -41,14 +41,14 @@ export async function generateMetadata({
 
   if (!vehicle) {
     return {
-      title: "Vehicle Not Found | Repete Auto"
+      title: "Vehicle Not Found"
     };
   }
 
   const description = `View photos, mileage, price, and key details for this ${vehicle.title} at Repete Auto in Vernal, Utah. Call to confirm availability before making the trip.`;
 
   return {
-    title: `${vehicle.title} | Used Vehicle in Vernal, Utah | Repete Auto`,
+    title: `${vehicle.title} | Used Vehicle in Vernal, Utah`,
     description,
     alternates: {
       canonical: `/inventory/${vehicle.slug}`

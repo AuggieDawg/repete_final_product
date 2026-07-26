@@ -5,6 +5,10 @@
 - Vercel Web Analytics
 - Vercel Speed Insights
 - GA4-ready event tracking through `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- Analytics mounts only when `NEXT_PUBLIC_ANALYTICS_ENABLED=true`
+
+Set `NEXT_PUBLIC_ANALYTICS_ENABLED=false` in Development and Preview. Set it
+to `true` only in Production so internal testing does not contaminate reports.
 
 ## Core Page Metrics
 

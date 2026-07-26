@@ -55,6 +55,7 @@ Never commit secret values. Configure them separately in Vercel Production and P
 | `DEALER_TIME_ZONE` | Server | Dealer-hours cache policy; normally `America/Denver` |
 | `NEXT_PUBLIC_WEBMANAGER_BASE_URL` | Public | Approved WebManager form base URL |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Public | GA4 web-stream identifier |
+| `NEXT_PUBLIC_ANALYTICS_ENABLED` | Public | `true` only in Production; keeps preview traffic out of reports |
 | `NEXT_PUBLIC_SITE_URL` | Public | Canonical production URL |
 | `NEXT_PUBLIC_INDEXING_ENABLED` | Public | `true` only in Production |
 
