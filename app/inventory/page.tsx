@@ -174,8 +174,8 @@ export default async function InventoryPage({
             </div>
           ) : vehicles.length > 0 ? (
             <div className="inventoryGridPremium inventoryGridShowcase">
-              {vehicles.map((vehicle) => (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              {vehicles.map((vehicle, index) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} priority={index < 3} />
               ))}
             </div>
           ) : (

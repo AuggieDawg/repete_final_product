@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Vehicle } from "@/lib/inventory/types";
+import { isOptimizablePhotoUrl } from "@/lib/images/photo-optimization";
 
 const accentPalette = [
   "#ffd200",
@@ -41,7 +42,14 @@ function getWordmark(vehicle: Vehicle) {
   return (vehicle.make || vehicle.bodyStyle || "Repete").slice(0, 10).toUpperCase();
 }
 
-export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
+export function VehicleCard({
+  vehicle,
+  priority = false
+}: {
+  vehicle: Vehicle;
+  /** Set for above-the-fold cards so the LCP image is not lazy-loaded. */
+  priority?: boolean;
+}) {
   const primaryPhoto = vehicle.photos[0];
   const accent = getVehicleAccent(vehicle);
 
@@ -61,13 +69,14 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             <div className="inventoryVehicleImageWrap">
               <Image
                 src={primaryPhoto}
-                alt={vehicle.title}
+                alt={`${vehicle.title} for sale at Repete Auto in Vernal, Utah`}
                 className="inventoryVehicleImage"
-                loading="lazy"
+                loading={priority ? undefined : "lazy"}
+                priority={priority}
                 width={1200}
                 height={900}
                 sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                unoptimized
+                unoptimized={!isOptimizablePhotoUrl(primaryPhoto)}
               />
             </div>
             <div className="inventoryImageOverlay" />

@@ -27,3 +27,4 @@ data/fixtures/*.normalized.json
 *.bak.*
 *.orig
 *.rej
+*.tsbuildinfo

@@ -20,7 +20,7 @@ export function LocalBusinessJsonLd() {
     "@id": `${getBaseUrl()}/#business`,
     name: siteConfig.name,
     url: getBaseUrl(),
-    telephone: siteConfig.phoneDisplay,
+    telephone: siteConfig.phoneE164,
     email: siteConfig.email,
     image: createAbsoluteUrl("/repete-logo.png"),
     logo: createAbsoluteUrl("/repete-logo.png"),
@@ -33,6 +33,12 @@ export function LocalBusinessJsonLd() {
       postalCode: "84078",
       addressCountry: "US"
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: siteConfig.geo.latitude,
+      longitude: siteConfig.geo.longitude
+    },
+    hasMap: siteConfig.mapsUrl,
     areaServed: [
       "Vernal, Utah",
       "Uintah Basin",
@@ -41,7 +47,11 @@ export function LocalBusinessJsonLd() {
       "Duchesne County, Utah"
     ],
     openingHoursSpecification: getOpeningHoursSpecification(),
-    sameAs: []
+    /**
+     * Entity-corroboration links. Add the Facebook page URL and any
+     * other official profiles here once confirmed with Pete.
+     */
+    sameAs: [siteConfig.instagramUrl]
   };
 
   return (

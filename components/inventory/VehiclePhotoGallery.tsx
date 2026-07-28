@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { isOptimizablePhotoUrl } from "@/lib/images/photo-optimization";
 import { useEffect, useRef, useState, type TouchEvent } from "react";
 
 type VehiclePhotoGalleryProps = {
@@ -190,7 +191,7 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
           alt={title}
           fill
           priority
-          unoptimized
+          unoptimized={!isOptimizablePhotoUrl(activePhoto)}
           sizes="(max-width: 900px) 100vw, 50vw"
           className="vehicleGalleryImage"
         />
@@ -214,7 +215,7 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
                 src={photo}
                 alt={`${title} photo ${index + 1}`}
                 fill
-                unoptimized
+                unoptimized={!isOptimizablePhotoUrl(photo)}
                 sizes="(max-width: 700px) 33vw, 160px"
                 className="vehicleThumbnailImage"
               />
@@ -244,7 +245,7 @@ export function VehiclePhotoGallery({ photos, title }: VehiclePhotoGalleryProps)
                 src={selectedPhoto}
                 alt={`${title} large view`}
                 fill
-                unoptimized
+                unoptimized={!isOptimizablePhotoUrl(selectedPhoto)}
                 sizes="100vw"
                 className="vehicleModalImage"
               />

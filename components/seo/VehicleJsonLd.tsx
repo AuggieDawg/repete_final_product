@@ -20,6 +20,7 @@ export function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
     url: vehicleUrl,
     description: formatDescription(vehicle),
     image: vehicle.photos,
+    itemCondition: "https://schema.org/UsedCondition",
     brand: vehicle.make
       ? {
           "@type": "Brand",
@@ -37,6 +38,11 @@ export function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
       : undefined,
     vehicleIdentificationNumber: vehicle.vin,
     color: vehicle.exteriorColor,
+    vehicleInteriorColor: vehicle.interiorColor,
+    bodyType: vehicle.bodyStyle,
+    fuelType: vehicle.fuelType,
+    vehicleTransmission: vehicle.transmission,
+    driveWheelConfiguration: vehicle.drivetrain,
     vehicleEngine: vehicle.engine
       ? {
           "@type": "EngineSpecification",
@@ -46,7 +52,7 @@ export function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
     seller: {
       "@type": "AutoDealer",
       name: siteConfig.name,
-      telephone: siteConfig.phoneDisplay,
+      telephone: siteConfig.phoneE164,
       url: createAbsoluteUrl("/")
     }
   };
@@ -57,6 +63,7 @@ export function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
       price: vehicle.price,
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/UsedCondition",
       url: vehicleUrl,
       seller: {
         "@type": "AutoDealer",

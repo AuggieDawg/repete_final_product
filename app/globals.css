@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Bebas+Neue&display=swap");
-
 :root {
   --yellow: #ffd200;
   --yellow-soft: #f7de68;
@@ -25,7 +23,7 @@ body {
   margin: 0;
   background: var(--black);
   color: var(--text);
-  font-family: "Barlow", Arial, sans-serif;
+  font-family: var(--font-barlow), "Barlow", Arial, sans-serif;
   overflow-x: hidden;
 }
 
@@ -258,7 +256,7 @@ img {
 .compactHeader h2,
 .integrationShell h2,
 .detailNotesCard h2 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   line-height: 0.92;
   letter-spacing: 0.035em;
   margin: 0;
@@ -316,7 +314,7 @@ img {
 .specCard strong,
 .integrationSteps strong {
   display: block;
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: 1.6rem;
   letter-spacing: 0.05em;
   color: var(--yellow);
@@ -373,7 +371,7 @@ img {
 }
 
 .heroPanelCard h2 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: 2.6rem;
   line-height: 0.94;
   letter-spacing: 0.04em;
@@ -675,7 +673,7 @@ img {
 
 .inventoryTitleTop h3,
 .detailHeroCopy h1 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   line-height: 0.92;
   letter-spacing: 0.04em;
   margin: 0.35rem 0 0.25rem;
@@ -697,7 +695,7 @@ img {
   position: absolute;
   right: 1rem;
   bottom: 5.4rem;
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(4rem, 9vw, 7rem);
   line-height: 0.9;
   letter-spacing: 0.08em;
@@ -758,7 +756,7 @@ img {
 }
 
 .sellingCard h3 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   letter-spacing: 0.04em;
   font-size: 1.8rem;
   margin: 1rem 0 0.5rem;
@@ -1355,7 +1353,7 @@ textarea {
 }
 
 .inventoryHeroCompactCopy h1 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   line-height: 0.92;
   letter-spacing: 0.04em;
@@ -1392,7 +1390,7 @@ textarea {
 .inventoryHeroMeta strong {
   display: block;
   color: var(--yellow);
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: 2rem;
   letter-spacing: 0.05em;
 }
@@ -1507,7 +1505,7 @@ textarea {
 }
 
 .pageHero h1 {
-  font-family: "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
   font-size: clamp(4rem, 9vw, 7.5rem);
   line-height: 0.92;
   letter-spacing: 0.035em;
@@ -1572,7 +1570,7 @@ textarea {
 
 .noticeCard h2,
 .detailCard h2 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   letter-spacing: 0.04em;
   font-size: clamp(2.2rem, 4vw, 3.4rem);
   margin: 0 0 0.75rem;
@@ -1599,7 +1597,7 @@ textarea {
 }
 
 .vehicleDetailHero h1 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(4rem, 8vw, 7rem);
   line-height: 0.92;
   margin: 0;
@@ -1819,7 +1817,7 @@ textarea {
 }
 
 .webmanagerHeroCopy h1 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(3.4rem, 7vw, 6.7rem);
   line-height: 0.92;
   letter-spacing: 0.04em;
@@ -1931,7 +1929,7 @@ textarea {
 }
 
 .availabilityPanelBody h2 {
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2.5rem, 4vw, 4.2rem);
   line-height: 0.94;
   letter-spacing: 0.045em;
@@ -1963,7 +1961,7 @@ textarea {
 
 .inventoryAvailabilityNote strong {
   display: block;
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2rem, 3.5vw, 3.2rem);
   line-height: 0.95;
   letter-spacing: 0.045em;
@@ -2008,7 +2006,7 @@ textarea {
 
 .noDocFeesCard strong {
   display: block;
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
   line-height: 0.92;
   letter-spacing: 0.05em;
@@ -2247,7 +2245,7 @@ textarea {
 
 .noDocFeesCard strong {
   display: block;
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
   line-height: 0.92;
   letter-spacing: 0.05em;
@@ -2454,7 +2452,7 @@ textarea {
 
 .vehicleHeroPriceBlock strong {
   color: var(--yellow);
-  font-family: "Bebas Neue", Impact, sans-serif;
+  font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
   font-size: clamp(2.25rem, 5vw, 3.8rem);
   line-height: 0.9;
   letter-spacing: 0.045em;
@@ -2553,4 +2551,18 @@ textarea {
   .vehicleThumbnail {
     border-radius: 8px;
   }
+}
+
+.footerAddress {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.footerAddress a {
+  color: var(--text);
+}
+
+.footerAddress a:hover {
+  color: var(--yellow);
 }

@@ -17,6 +17,16 @@ export function SiteFooter() {
           <p>
             © 2026 Repete Auto. Used cars, trucks, SUVs, and local dealership support in Vernal, Utah.
           </p>
+
+          <p className="footerAddress">
+            <a href={siteConfig.mapsUrl} target="_blank" rel="noreferrer">
+              {siteConfig.addressLine1}, {siteConfig.cityStateZip}
+            </a>
+            <span> · </span>
+            <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
+            <span> · </span>
+            <Link href="/location">Hours &amp; Directions</Link>
+          </p>
         </div>
 
         <div className="footerLinks">

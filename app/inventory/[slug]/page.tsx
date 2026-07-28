@@ -5,7 +5,10 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { VehiclePhotoGallery } from "@/components/inventory/VehiclePhotoGallery";
 import { VehicleJsonLd } from "@/components/seo/VehicleJsonLd";
-import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
+import {
+  findVehicleOrThrowWhenUnhealthy,
+  getInventorySnapshot
+} from "@/lib/inventory/get-inventory";
 import { buildTextHref, siteConfig } from "@/lib/site/site";
 
 function formatPrice(price: number | null | undefined) {
@@ -83,7 +86,11 @@ export default async function VehicleDetailPage({
 }) {
   const { slug } = await Promise.resolve(params);
   const snapshot = await getInventorySnapshot();
-  const vehicle = snapshot.vehicles.find((item) => item.slug === slug);
+
+  // Throws (-> 5xx) when the feed is down so crawlers retry instead of
+  // deindexing; only 404s when the snapshot is healthy and the vehicle
+  // is genuinely gone.
+  const vehicle = findVehicleOrThrowWhenUnhealthy(snapshot, slug);
 
   if (!vehicle) {
     notFound();

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WebManagerFormFrame } from "@/components/webmanager/webmanager-form-frame";
-import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
+import {
+  findVehicleOrThrowWhenUnhealthy,
+  getInventorySnapshot
+} from "@/lib/inventory/get-inventory";
 import { webManagerUrls } from "@/lib/webmanager/urls";
 
 export const metadata: Metadata = {
@@ -20,7 +23,7 @@ export default async function VehicleScheduleTestDrivePage({
 }) {
   const { slug } = await Promise.resolve(params);
   const snapshot = await getInventorySnapshot();
-  const vehicle = snapshot.vehicles.find((item) => item.slug === slug);
+  const vehicle = findVehicleOrThrowWhenUnhealthy(snapshot, slug);
 
   if (!vehicle) notFound();
 
