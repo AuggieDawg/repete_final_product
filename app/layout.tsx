@@ -100,6 +100,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const analyticsEnabled =
+    process.env.VERCEL_ENV === "production" ||
     process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
 
   return (
