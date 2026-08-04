@@ -129,7 +129,7 @@ export default async function Home() {
 
             <div className="availabilityPanelBody">
               <p>Inventory moves quickly</p>
-              <h2>Call Repete Auto to confirm availability before making the trip.</h2>
+              <h2>Call or text Repete Auto anytime.</h2>
               <span>
                 Ask about current vehicles, test drive timing, trade-in questions, and the best next step before heading to the lot.
               </span>
