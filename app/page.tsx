@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { HeroVideo } from "@/components/site/HeroVideo";
 import { VehicleCard } from "@/components/inventory/VehicleCard";
 import { getInventorySnapshot } from "@/lib/inventory/get-inventory";
 import { siteConfig } from "@/lib/site/site";
@@ -53,16 +54,7 @@ export default async function Home() {
       <SiteNav />
 
       <section className="heroSection heroHomeSection" id="top">
-        <video
-          className="heroVideo"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/videos/repete-hero.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo />
 
         <div className="heroOverlay" />
         <div className="heroGlow heroGlowOne" />
