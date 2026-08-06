@@ -10,15 +10,26 @@
  * gracefully: components fall back to unoptimized rendering rather
  * than crashing (see lib/images/photo-optimization.ts).
  */
+const AUTOMANAGER_WMPHOTOS_HOST = "automanager.blob.core.windows.net";
+
 const extraImageHosts = (process.env.NEXT_PUBLIC_INVENTORY_IMAGE_HOSTS || "")
   .split(",")
-  .map((host) => host.trim())
-  .filter(Boolean);
+  .map((host) => host.trim().toLowerCase())
+  .filter((host) => host && host !== AUTOMANAGER_WMPHOTOS_HOST);
 
 const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.automanager.com" },
+      // AutoManager's real inventory photos are served from Azure rather than
+      // *.automanager.com. Restrict optimization to the exact HTTPS host and
+      // WMPhotos path; no other Azure blobs are implicitly trusted.
+      {
+        protocol: "https",
+        hostname: AUTOMANAGER_WMPHOTOS_HOST,
+        port: "",
+        pathname: "/wmphotos/**"
+      },
       ...extraImageHosts.map((hostname) => ({ protocol: "https", hostname }))
     ]
   },
