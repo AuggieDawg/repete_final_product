@@ -1,7 +1,7 @@
 "use client";
 
-import { track } from "@vercel/analytics";
 import { useEffect, useRef } from "react";
+import { isAnalyticsEnabled } from "@/lib/analytics/enabled";
 import { markLeadAttempt } from "@/lib/analytics/lead-attempt";
 
 export type LeadFormIntent =
@@ -22,12 +22,15 @@ type TrackedWebManagerIframeProps = {
   context?: LeadFormContext;
 };
 
-function trackLeadFormEvent(
+async function trackLeadFormEvent(
   eventName: "lead_form_view" | "lead_form_loaded",
   intent: LeadFormIntent,
   context: LeadFormContext
 ) {
+  if (!isAnalyticsEnabled()) return;
+
   try {
+    const { track } = await import("@vercel/analytics");
     track(eventName, {
       intent,
       context
@@ -62,7 +65,7 @@ export function TrackedWebManagerIframe({
       }
     }
 
-    trackLeadFormEvent("lead_form_view", intent, context);
+    void trackLeadFormEvent("lead_form_view", intent, context);
   }, [intent, context]);
 
   return (
@@ -76,7 +79,7 @@ export function TrackedWebManagerIframe({
         if (!intent || hasTrackedLoad.current) return;
 
         hasTrackedLoad.current = true;
-        trackLeadFormEvent("lead_form_loaded", intent, context);
+        void trackLeadFormEvent("lead_form_loaded", intent, context);
       }}
     />
   );

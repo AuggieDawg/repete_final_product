@@ -1,9 +1,9 @@
 "use client";
 
-import { track } from "@vercel/analytics";
 import Script from "next/script";
 import { useEffect } from "react";
 import { getDirectContactClick } from "@/lib/analytics/direct-contact-click";
+import { isAnalyticsEnabled } from "@/lib/analytics/enabled";
 
 declare global {
   interface Window {
@@ -191,15 +191,23 @@ function getSubmitEvent(form: HTMLFormElement): AnalyticsEvent | null {
 }
 
 function sendGaEvent({ name, gaParams = {} }: AnalyticsEvent) {
-  if (!GA_MEASUREMENT_ID || typeof window === "undefined" || !window.gtag) {
+  if (
+    !isAnalyticsEnabled() ||
+    !GA_MEASUREMENT_ID ||
+    typeof window === "undefined" ||
+    !window.gtag
+  ) {
     return;
   }
 
   window.gtag("event", name, gaParams);
 }
 
-function sendVercelEvent({ name, vercelParams = {} }: AnalyticsEvent) {
+async function sendVercelEvent({ name, vercelParams = {} }: AnalyticsEvent) {
+  if (!isAnalyticsEnabled()) return;
+
   try {
+    const { track } = await import("@vercel/analytics");
     track(name, vercelParams);
   } catch {
     // Keep analytics failures from affecting clicks, forms, or navigation.
@@ -208,11 +216,15 @@ function sendVercelEvent({ name, vercelParams = {} }: AnalyticsEvent) {
 
 function sendAnalyticsEvent(event: AnalyticsEvent) {
   sendGaEvent(event);
-  sendVercelEvent(event);
+  void sendVercelEvent(event);
 }
 
 export function SiteAnalytics() {
+  const analyticsEnabled = isAnalyticsEnabled();
+
   useEffect(() => {
+    if (!analyticsEnabled) return;
+
     function handleClick(event: MouseEvent) {
       const target = event.target;
 
@@ -248,9 +260,9 @@ export function SiteAnalytics() {
       document.removeEventListener("click", handleClick);
       document.removeEventListener("submit", handleSubmit);
     };
-  }, []);
+  }, [analyticsEnabled]);
 
-  if (!GA_MEASUREMENT_ID) {
+  if (!analyticsEnabled || !GA_MEASUREMENT_ID) {
     return null;
   }
 
