@@ -1,12 +1,14 @@
 "use client";
 
-import { track } from "@vercel/analytics";
 import { useEffect } from "react";
+import { isAnalyticsEnabled } from "@/lib/analytics/enabled";
 import { consumeLeadAttempt } from "@/lib/analytics/lead-attempt";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export function LeadConfirmationAnalytics() {
+  const analyticsEnabled = isAnalyticsEnabled();
+
   useEffect(() => {
     try {
       const attemptId = consumeLeadAttempt(
@@ -20,16 +22,18 @@ export function LeadConfirmationAnalytics() {
       return;
     }
 
+    if (!analyticsEnabled) return;
+
     const eventParams = {
       intent: "schedule_test_drive",
       source: "webmanager_redirect"
     };
 
-    try {
-      track("generate_lead", eventParams);
-    } catch {
-      // Keep analytics failures from affecting the confirmation page.
-    }
+    void import("@vercel/analytics")
+      .then(({ track }) => track("generate_lead", eventParams))
+      .catch(() => {
+        // Keep analytics failures from affecting the confirmation page.
+      });
 
     if (!GA_MEASUREMENT_ID) return;
 
@@ -54,7 +58,7 @@ export function LeadConfirmationAnalytics() {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, []);
+  }, [analyticsEnabled]);
 
   return null;
 }

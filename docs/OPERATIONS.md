@@ -3,8 +3,8 @@
 ## Ownership boundary
 
 The custom site is the public conversion layer. It owns the shopping experience,
-inventory presentation, SEO, performance, accessibility, call/text routing, and web
-analytics. AutoManager WebManager and DeskManager remain authoritative for inventory,
+inventory presentation, SEO, performance, accessibility, call/text routing, and optional
+web analytics. AutoManager WebManager and DeskManager remain authoritative for inventory,
 submitted leads, credit applications, customers, and deals.
 
 Do not replace a WebManager form or store credit-sensitive data without a separately
@@ -67,6 +67,10 @@ verified by the system receiving the lead.
 
 ## Monthly funnel report
 
+This section applies only while the owner has intentionally enabled analytics and
+retained a reporting service. Keep `NEXT_PUBLIC_ANALYTICS_ENABLED=false` or unset when
+that service is not active.
+
 Use one calendar-month window and compare it with the previous month and the established
 baseline. Keep Production selected when using Vercel Analytics so preview testing is not
 mixed with customer traffic.
@@ -110,6 +114,15 @@ Keep the report concise:
 5. Mobile/desktop performance and reliability issues.
 6. One to three prioritized recommendations.
 7. Experiments completed, result, and next-month action.
+
+## Analytics offboarding
+
+1. Export any reports the owner is entitled to retain.
+2. Set `NEXT_PUBLIC_ANALYTICS_ENABLED=false` in Production and Preview, or remove it.
+3. Redeploy because public environment variables are embedded at build time.
+4. Disable Vercel Web Analytics and Speed Insights in the project dashboard.
+5. Confirm the deployed site makes no GA4, Vercel Analytics, or Speed Insights requests.
+6. Leave all WebManager iframe URLs and form behavior unchanged.
 
 ## Incident response
 
