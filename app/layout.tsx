@@ -4,6 +4,7 @@ import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
+import { isAnalyticsEnabled } from "@/lib/analytics/enabled";
 import { getBaseUrl, shouldIndexSite } from "@/lib/seo/site-url";
 import "./globals.css";
 
@@ -99,9 +100,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const analyticsEnabled =
-    process.env.VERCEL_ENV === "production" ||
-    process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
+  const analyticsEnabled = isAnalyticsEnabled();
 
   return (
     <html lang="en" className={`${barlow.variable} ${bebasNeue.variable}`}>

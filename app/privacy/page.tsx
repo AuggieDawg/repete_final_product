@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <section className="pageHero policyHero">
         <p className="eyebrow">Website Information</p>
         <h1>Privacy</h1>
-        <p>Last updated July 26, 2026</p>
+        <p>Last updated August 11, 2026</p>
       </section>
 
       <section className="sectionBlock policySection">
@@ -39,7 +39,8 @@ export default function PrivacyPage() {
               The production website may use Vercel Analytics, Vercel Speed Insights,
               and Google Analytics to understand page use, navigation, and site
               performance. Repete Auto uses this information to improve the website.
-              Analytics is disabled on development and preview versions of the site.
+              These measurement services are used only when the dealership explicitly
+              enables them and may be disabled in any environment.
             </p>
           </section>
 

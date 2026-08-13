@@ -33,6 +33,18 @@ function formatMpg(mpg: number) {
   }).format(mpg)} MPG`;
 }
 
+/**
+ * Pre-render the vehicles present during a successful build. New vehicles can
+ * still render on demand because dynamicParams keeps its default value (true).
+ * The generated pages give current inventory an additional static/ISR layer
+ * when AutoManager has a short outage after deployment.
+ */
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  const snapshot = await getInventorySnapshot();
+
+  return snapshot.vehicles.map((vehicle) => ({ slug: vehicle.slug }));
+}
+
 export async function generateMetadata({
   params
 }: {

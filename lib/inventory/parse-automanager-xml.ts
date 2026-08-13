@@ -128,37 +128,67 @@ function normalizeAbsoluteWebManagerUrl(value?: string): string | undefined {
   return undefined;
 }
 
-function stringLooksLikeImageUrl(value: string): boolean {
-  return /^https?:\/\//i.test(value) && (
-    /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(value) ||
-    /photo|image|pictures|vehicle/i.test(value)
-  );
+const IMAGE_EXTENSION_PATTERN = /\.(?:avif|gif|jpe?g|png|webp)$/i;
+const AUTOMANAGER_WMPHOTOS_HOST = "automanager.blob.core.windows.net";
+const AUTOMANAGER_WMPHOTOS_PATH_PREFIX = "/wmphotos/";
+
+/**
+ * Convert a feed value into a safe, normalized image URL.
+ *
+ * AutoManager sometimes puts its vehicle-details page URL inside a <Photos>
+ * block. Being inside that block does not make a URL an image, so accept only
+ * URLs with a supported raster extension or files under AutoManager's exact
+ * WMPhotos Azure location (where image keys can be extensionless). This avoids
+ * a route-name blacklist that could discard a legitimate image such as
+ * `/inventory/vehicle-front.jpg`.
+ */
+function toImageUrl(value: string): string | undefined {
+  let url: URL;
+
+  try {
+    url = new URL(value.trim());
+  } catch {
+    return undefined;
+  }
+
+  if (url.protocol !== "http:" && url.protocol !== "https:") return undefined;
+  if (url.username || url.password) return undefined;
+
+  const isRasterImage = IMAGE_EXTENSION_PATTERN.test(url.pathname);
+  const isAutoManagerWmPhoto =
+    url.hostname.toLowerCase() === AUTOMANAGER_WMPHOTOS_HOST &&
+    url.pathname.startsWith(AUTOMANAGER_WMPHOTOS_PATH_PREFIX) &&
+    url.pathname.length > AUTOMANAGER_WMPHOTOS_PATH_PREFIX.length;
+
+  if (!isRasterImage && !isAutoManagerWmPhoto) return undefined;
+
+  // Repete is HTTPS-only. Normalize accepted legacy feed URLs before they can
+  // create mixed-content errors or duplicate an equivalent HTTPS photo.
+  if (url.protocol === "http:") {
+    if (url.port === "80") url.port = "";
+    url.protocol = "https:";
+  }
+
+  return url.toString();
 }
 
 function collectPhotoUrls(node: unknown): string[] {
   const urls = new Set<string>();
 
-  function walk(current: unknown, path: string[] = []) {
+  function walk(current: unknown) {
     if (current === null || current === undefined) return;
 
     if (Array.isArray(current)) {
-      current.forEach((item) => walk(item, path));
+      current.forEach(walk);
       return;
     }
 
     if (typeof current === "string" || typeof current === "number") {
       const text = cleanText(current);
-      const pathText = path.join(".").toLowerCase();
 
-      if (
-        text &&
-        /^https?:\/\//i.test(text) &&
-        (pathText.includes("photo") ||
-          pathText.includes("image") ||
-          pathText.includes("picture") ||
-          stringLooksLikeImageUrl(text))
-      ) {
-        urls.add(text);
+      if (text) {
+        const imageUrl = toImageUrl(text);
+        if (imageUrl) urls.add(imageUrl);
       }
 
       return;
@@ -166,8 +196,8 @@ function collectPhotoUrls(node: unknown): string[] {
 
     if (!isRecord(current)) return;
 
-    for (const [key, value] of Object.entries(current)) {
-      walk(value, [...path, key]);
+    for (const value of Object.values(current)) {
+      walk(value);
     }
   }
 
